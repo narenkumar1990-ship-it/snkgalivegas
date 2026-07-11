@@ -853,12 +853,7 @@ window.backToRoleSelect = function() {
 <button class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full font-bold transition hidden" id="myPerfBtn" onclick="window.showMyPerformance()">
                     📈 Performance
                 </button>
-<button class="relative flame-icon-btn rounded-full p-2 transition" id="bellBtn" title="Notifications" onclick="window.clearBell()">
-<span class="text-xl" id="bellIcon">🔔</span>
-<span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center" id="bellBadge">0</span>
-</button>
 <button onclick="window.openToneModal()" title="Notification Tone" class="relative flame-icon-btn rounded-full p-2 transition" style="font-size:1.1rem;">🎵</button>
-<button id="darkModeToggle" onclick="window._toggleDarkMode()" title="Dark / Light Mode">🌙</button>
 <button id="langToggle" onclick="window._toggleLang()" title="ભાષા બદલો">EN</button>
 <span class="bg-green-500 px-3 py-1 rounded-full text-xs animate-pulse font-semibold shadow">🟢 Live</span>
 </div>
@@ -4668,27 +4663,11 @@ window.saveAdminStaffEdit = saveAdminStaffEdit;
 window.deleteAdminStaff   = deleteAdminStaff;
 </script>
 
-<!-- ═══════════════════════════════════════════════════
-     FEATURE 1: DARK MODE
-     ═══════════════════════════════════════════════════ -->
 <script>
 (function() {
-    // Load saved preference
-    const saved = localStorage.getItem('nkg_darkMode');
-    if (saved === '1') {
-        document.body.classList.add('dark-mode');
-        const btn = document.getElementById('darkModeToggle');
-        if (btn) btn.textContent = '☀️';
-    }
-
-    window._toggleDarkMode = function() {
-        const isDark = document.body.classList.toggle('dark-mode');
-        localStorage.setItem('nkg_darkMode', isDark ? '1' : '0');
-        const btn = document.getElementById('darkModeToggle');
-        if (btn) btn.textContent = isDark ? '☀️' : '🌙';
-        // Show small toast
-        _showUXToast(isDark ? '🌙 Dark Mode ચાલુ' : '☀️ Light Mode ચાલુ');
-    };
+    // Ensure any previously saved dark-mode preference doesn't stick
+    document.body.classList.remove('dark-mode');
+    localStorage.removeItem('nkg_darkMode');
 })();
 </script>
 
