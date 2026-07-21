@@ -114,7 +114,7 @@
         }
         header h1 { text-shadow: 0 1px 10px rgba(0,0,0,.3); letter-spacing: .01em; }
     </style>
-<script src="file:///C:/Users/SNKGA%20Godown/AppData/Local/Packages/5319275A.51895FA4EA97F_cv1g1gvanyjgm/LocalState/sessions/42D5A232DC1CCEECB4B538FC67556B76A372D8C9/transfers/2026-27/%E0%AA%B6%E0%AB%8D%E0%AA%B0%E0%AB%80%20%E0%AA%A8%E0%AB%83%E0%AA%B8%E0%AA%BF%E0%AA%82%E0%AA%B9%20%E0%AA%95%E0%AB%83%E0%AA%AA%E0%AA%BE%20%E0%AA%97%E0%AB%87%E0%AA%B8%20%E0%AA%8F%E0%AA%9C%E0%AA%A8%E0%AB%8D%E0%AA%B8%E0%AB%80%20-%20Live%20Tracking_files/3.4_b7FH_VOo__RVNb_1VUL_ZeC3_PKcs_AiUK_UaFe.17"></script>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script>
 tailwind.config = {
   theme: { extend: {} }
@@ -122,8 +122,7 @@ tailwind.config = {
 </script>
 <link href="https://fonts.googleapis.com/" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect">
-<link href="file:///C:/Users/SNKGA%20Godown/AppData/Local/Packages/5319275A.51895FA4EA97F_cv1g1gvanyjgm/LocalState/sessions/42D5A232DC1CCEECB4B538FC67556B76A372D8C9/transfers/2026-27/%E0%AA%B6%E0%AB%8D%E0%AA%B0%E0%AB%80%20%E0%AA%A8%E0%AB%83%E0%AA%B8%E0%AA%BF%E0%AA%82%E0%AA%B9%20%E0%AA%95%E0%AB%83%E0%AA%AA%E0%AA%BE%20%E0%AA%97%E0%AB%87%E0%AA%B8%20%E0%AA%8F%E0%AA%9C%E0%AA%A8%E0%AB%8D%E0%AA%B8%E0%AB%80%20-%20Live%20Tracking_files/css2_PKcs_AiUK_UaFe.css" rel="stylesheet">
-<link href="file:///C:/Users/SNKGA%20Godown/AppData/Local/Packages/5319275A.51895FA4EA97F_cv1g1gvanyjgm/LocalState/sessions/42D5A232DC1CCEECB4B538FC67556B76A372D8C9/transfers/2026-27/%E0%AA%B6%E0%AB%8D%E0%AA%B0%E0%AB%80%20%E0%AA%A8%E0%AB%83%E0%AA%B8%E0%AA%BF%E0%AA%82%E0%AA%B9%20%E0%AA%95%E0%AB%83%E0%AA%AA%E0%AA%BE%20%E0%AA%97%E0%AB%87%E0%AA%B8%20%E0%AA%8F%E0%AA%9C%E0%AA%A8%E0%AB%8D%E0%AA%B8%E0%AB%80%20-%20Live%20Tracking_files/css2_1qgq_HLPq_Aliw_LAaa_fmjV_SpbU_QJBX_oT1f_j04v_1bL9__UaFe.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ===== PROFESSIONAL GAS AGENCY THEME — Charcoal + Flame + Gold ===== */
 :root {
@@ -866,7 +865,7 @@ window.backToRoleSelect = function() {
 <button class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full font-bold transition" id="myPerfBtn" onclick="window.showMyPerformance()">
                     📈 Performance
                 </button>
-<button class="bg-teal-500 hover:bg-teal-600 text-white text-xs px-2.5 py-1 rounded-full font-bold transition" id="itemCommissionBtn" onclick="window.openItemCommissionApp()">
+<button class="bg-teal-500 hover:bg-teal-600 text-white text-xs px-2.5 py-1 rounded-full font-bold transition" id="itemCommissionBtn" onclick="window.openItemCommissionApp()" style="display:none !important;">
                     🧰 Item Commission
                 </button>
 <button onclick="window.openToneModal()" title="Notification Tone" class="relative flame-icon-btn rounded-full p-2 transition" style="font-size:1.1rem;">🎵</button>
@@ -1057,7 +1056,7 @@ window.backToRoleSelect = function() {
 </div>
 </div>
 <!-- Mechanic-only: Item Commission app data — Closing Stock (tap for item-wise popup) & Total Due -->
-<div class="grid grid-cols-2 gap-2 mb-2" id="mechanicMoneyStrip">
+<div class="grid grid-cols-2 gap-2 mb-2" id="mechanicMoneyStrip" style="display:none !important;">
 <button onclick="window.openClosingStockModal()" class="bg-indigo-50 border border-indigo-200 rounded-xl p-2.5 text-center shadow-sm active:scale-95 transition">
 <div class="text-[11px] text-indigo-700 font-semibold mb-0.5">📦 Closing Stock <span class="text-indigo-400">▶</span></div>
 <div class="text-lg font-extrabold text-indigo-700" id="mHeaderClosingStock">0 નંગ</div>
@@ -1066,6 +1065,9 @@ window.backToRoleSelect = function() {
 <div class="text-[11px] text-red-700 font-semibold mb-0.5">💰 કુલ Due (Office માં જમા)</div>
 <div class="text-lg font-extrabold text-green-700" id="mHeaderTotalDue">₹0</div>
 </div>
+<button onclick="window.openExtraSaleModal()" class="col-span-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 rounded-xl p-2.5 text-center shadow-sm active:scale-95 transition font-bold text-sm flex items-center justify-center gap-1.5" id="extraSaleOpenBtn" style="color:#B5102A;">
+<span>🧾 Extra Sale</span><span class="text-[10px] font-normal opacity-90">(Non-Customer)</span>
+</button>
 </div>
 <div class="flex justify-between items-center border-b pb-2">
 <h2 class="text-base font-bold text-gray-700">📋 ફરિયાદોની લાઈવ યાદી</h2>
@@ -1347,6 +1349,71 @@ window.backToRoleSelect = function() {
     <div class="flex gap-2 px-4 pb-4 pt-2 shrink-0 border-t bg-white rounded-b-2xl">
       <button onclick="window.confirmCloseMaterial()" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg font-bold text-sm">આગળ વધો</button>
       <button onclick="window.cancelCloseMaterial()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-gray-700 py-2.5 rounded-lg font-bold text-sm">રદ કરો</button>
+    </div>
+  </div>
+</div>
+<!-- Extra Sale Modal (Non-Customer material sale, no linked complaint) -->
+<div class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-2 sm:p-4 hidden" id="extraSaleModal">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full border flex flex-col max-h-[94dvh]">
+    <div class="flex justify-between items-center px-4 pt-4 pb-1 shrink-0">
+      <h2 class="text-base font-extrabold text-orange-700">🧾 Extra Sale (Non-Customer)</h2>
+      <button class="text-gray-400 hover:text-gray-600 text-xl font-bold" onclick="window.cancelExtraSale()">✕</button>
+    </div>
+    <div class="overflow-y-auto px-4 flex-1 min-h-0">
+      <p class="text-xs text-gray-500 mt-1 mb-3">જે વ્યક્તિ અમારી Agency નો ગ્રાહક નથી, પણ તેને Material Sale કર્યું છે — તેની Entry અહીં કરો.</p>
+
+      <div class="mb-3">
+        <label class="block text-xs font-bold text-gray-600 mb-1">👤 વ્યક્તિનું નામ (વૈકલ્પિક)</label>
+        <input type="text" id="extraSalePersonName" class="w-full border rounded-lg px-2 py-2 text-sm" placeholder="દા.ત. કોઈ Walk-in ગ્રાહક">
+      </div>
+      <div class="mb-3">
+        <label class="block text-xs font-bold text-gray-600 mb-1">📞 મોબાઈલ નંબર (વૈકલ્પિક)</label>
+        <input type="tel" id="extraSalePersonPhone" class="w-full border rounded-lg px-2 py-2 text-sm" placeholder="દા.ત. 9876543210">
+      </div>
+
+      <label class="block text-xs font-bold text-gray-600 mb-1">📦 Material પસંદ કરો *</label>
+      <div id="extraSaleCheckList" class="space-y-1.5 mb-3"></div>
+
+      <div class="mb-3">
+        <label class="block text-xs font-bold text-gray-600 mb-1">🔢 Cash Memo નંબર (વૈકલ્પિક)</label>
+        <input type="number" min="1" inputmode="numeric" autocomplete="off" id="extraSaleCashMemoNumber" class="w-full border rounded-lg px-2 py-2 text-sm" placeholder="દા.ત. 45">
+      </div>
+
+      <div class="mb-3">
+        <label class="text-xs font-bold text-gray-700 mb-1 block">📷 ફોટો (વૈકલ્પિક)</label>
+        <button type="button" onclick="document.getElementById('extraSalePhotoInput').click()" class="w-full bg-slate-100 hover:bg-slate-200 text-gray-700 py-2 rounded-lg font-bold text-xs transition active:scale-95">📷 ફોટો લો / પસંદ કરો</button>
+        <input type="file" accept="image/*" capture="environment" id="extraSalePhotoInput" class="hidden" onchange="window.handleExtraSalePhoto(event)">
+        <div id="extraSalePreviewWrap" class="hidden mt-2 text-center">
+          <img id="extraSalePhotoPreview" class="hidden mx-auto rounded-lg border" style="max-height:180px;">
+          <button type="button" onclick="window.clearExtraSalePhoto()" class="text-xs text-red-600 font-semibold mt-1 underline">🗑️ કાઢી નાખો, ફરી લો</button>
+        </div>
+      </div>
+      <div class="text-xs text-red-600 font-medium mb-3 hidden" id="extraSaleError">⚠️ ઓછામાં ઓછું એક Material પસંદ કરો!</div>
+    </div>
+    <div class="flex gap-2 px-4 pb-4 pt-2 shrink-0 border-t bg-white rounded-b-2xl">
+      <button onclick="window.confirmExtraSale()" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg font-bold text-sm">આગળ વધો</button>
+      <button onclick="window.cancelExtraSale()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-gray-700 py-2.5 rounded-lg font-bold text-sm">રદ કરો</button>
+    </div>
+  </div>
+</div>
+<!-- Extra Sale Verification Modal — closed with fixed code 12345 (no linked complaint / consumer number) -->
+<div class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4 hidden" id="extraSaleVerifyModal">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full border p-5">
+    <div class="text-center mb-1">
+      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(120deg,#1A1A1A,#C81030);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+        <span style="color:#fff;font-size:22px;">🔒</span>
+      </div>
+      <div style="color:#1A1A1A; font-weight:800; font-size:1.05rem;">Extra Sale Verification</div>
+      <div style="color:#666; font-size:0.75rem; margin-top:2px;">Entry Save કરતાં પહેલાં Verify Code નાખો</div>
+    </div>
+    <div class="pt-3">
+      <p style="font-size:0.82rem; color:#555; margin-bottom:10px; line-height:1.5;">આ ફક્ત <strong>Extra Sale (Non-Customer)</strong> Entry માટે છે. Verify Code નાખો.</p>
+      <input id="extraSaleVerifyInput" type="text" inputmode="numeric" placeholder="Verify Code નાખો" style="width:100%; padding:10px 12px; border:2px solid #ece2d2; border-radius:10px; font-size:0.95rem; font-weight:700; color:#1A1A1A; box-sizing:border-box; margin-bottom:10px;" oninput="this.style.borderColor='#ece2d2'" onkeydown="if(event.key==='Enter') window.confirmExtraSaleVerify()">
+      <div id="extraSaleVerifyErrorMsg" style="display:none; background: rgb(251, 227, 230); color: rgb(140, 14, 31); border-radius: 8px; padding: 8px 12px; font-size: 0.8rem; font-weight: 700; margin-bottom: 10px;">⚠️ ખોટો Code. ફરી પ્રયત્ન કરો.</div>
+      <div class="flex gap-2">
+        <button onclick="window.confirmExtraSaleVerify()" id="extraSaleVerifySubmitBtn" style="flex:1; background: linear-gradient(120deg, rgb(26, 26, 26), rgb(200, 16, 48)); color:#fff; border:none; border-radius:10px; padding:12px; font-size:0.95rem; font-weight:800; cursor:pointer; transition:opacity 0.15s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">✅ Verify &amp; Save</button>
+        <button onclick="window.closeExtraSaleVerify()" style="flex:1; background:#F1F1F1; color:#333; border:none; border-radius:10px; padding:12px; font-size:0.95rem; font-weight:800; cursor:pointer;">❌ રદ કરો</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2846,6 +2913,24 @@ window.unlockVerification = function(key) {
     }).catch(err => alert('❌ ભૂલ: ' + err.message));
 };
 
+// Admin: Re-open a Closed (solved) complaint — sends it back to In Progress
+window.reopenComplaint = function(key) {
+    if (!confirm('શું તમે આ ફરિયાદ ફરીથી Open (In Progress) કરવા માંગો છો?')) return;
+    const item = allData[key] || {};
+    update(ref(db, 'complaints/' + key), {
+        status: 'inprogress',
+        solvedAt: null,
+        closedBy: null,
+        materialUsed: null,
+        cashMemoNumber: null,
+        reopenedAt: Date.now(),
+        reopenedBy: currentUser ? currentUser.name : ''
+    }).then(() => {
+        alert('✅ ફરિયાદ ફરીથી Open થઈ ગઈ.');
+        if (typeof window.closeDetailsModal === 'function') window.closeDetailsModal();
+    }).catch(err => alert('❌ ભૂલ: ' + err.message));
+};
+
 // ===== END CONSUMER NUMBER VERIFICATION SYSTEM =====
 let _forwardKey = null;
 let _forwardFromMechanic = null;
@@ -3523,6 +3608,9 @@ function buildCard(key, item) {
         }
     }
     const closeBtnWrapperHtml = closeBtnHtml ? `<div class="mt-2 w-full">${closeBtnHtml}</div>` : '';
+    const reopenBtnHtml = (currentUser.role === 'admin' && item.status === 'solved')
+        ? `<div class="mt-2 w-full"><button onclick="window.reopenComplaint('${key}')" class="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm font-extrabold py-2.5 rounded-lg transition active:scale-95">🔓 Re-open ફરિયાદ</button></div>`
+        : '';
     const timerHtml = (() => {
         if (item.status === 'solved') return buildSolvedTimeHtml(item);
         if (item.status === 'pending' || item.status === 'accepted' || item.status === 'inprogress') {
@@ -3646,7 +3734,7 @@ function buildCard(key, item) {
     const materialUsedHtml = Array.isArray(item.materialUsed) && item.materialUsed.length
         ? `<div class="text-xs text-teal-800 bg-teal-50 border border-teal-200 rounded-lg p-2 mb-2">📦 <strong>વપરાયેલ Material:</strong> ${item.materialUsed.map(m => `${escapeHtml(m.itemName)} × ${escapeHtml(m.qty)} (${m.paymentType === 'free' ? '🎁 Free' : '💵 Cash'})`).join(', ')}${item.cashMemoNumber != null ? ` <span class="text-amber-700 font-bold">🔢 Cash Memo #${escapeHtml(item.cashMemoNumber)}</span>` : ''}</div>`
         : '';
-    return `<div id="card-${key}" class="new-card bg-white p-4 rounded-xl shadow-sm border-l-4 ${s.border} border border-slate-100 ${cardExtraClass}"><div class="flex flex-wrap justify-between items-start gap-2 mb-2"><div><h3 class="font-bold text-gray-800"><span onclick="window.openDetailsModal('${key}')" style="cursor:pointer;text-decoration:underline dotted;" title="વિગત જુઓ">${safeCustomerName}</span> ${urgentBadge} ${redZoneBadge}</h3><p class="text-xs text-gray-500 mt-0.5 font-bold">📞 ${safePhone}</p></div><div class="flex flex-col items-end gap-1"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${s.cls}">${s.label}</span><span class="text-[10px] text-gray-400">${safeTimestamp}</span></div></div><p class="text-xs text-gray-600 bg-slate-50 p-2 rounded-lg border mb-1">📍 <strong>સરનામું:</strong> <strong>${safeAddress}</strong></p>${problemRowHtml}${materialUsedHtml}${timerHtml}<div class="flex flex-wrap justify-between items-center gap-2 border-t pt-2 mt-1"><span class="text-xs text-gray-600">🧑‍🔧 <strong>${safeMechanic}</strong></span><div class="flex gap-1 flex-wrap">${callBtnHtml}<a href="${waUrl}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs px-2.5 py-1.5 rounded-lg font-semibold transition active:scale-95 inline-block">💬 WhatsApp</a>${mapBtnHtml}${acceptButtonHtml}${cylButtonHtml}${forwardButtonHtml}${editButtonHtml}${deleteButtonHtml}</div></div>${closeBtnWrapperHtml}${cylPendingBadgeHtml}${cylAdminViewBtnHtml}</div>`;
+    return `<div id="card-${key}" class="new-card bg-white p-4 rounded-xl shadow-sm border-l-4 ${s.border} border border-slate-100 ${cardExtraClass}"><div class="flex flex-wrap justify-between items-start gap-2 mb-2"><div><h3 class="font-bold text-gray-800"><span onclick="window.openDetailsModal('${key}')" style="cursor:pointer;text-decoration:underline dotted;" title="વિગત જુઓ">${safeCustomerName}</span> ${urgentBadge} ${redZoneBadge}</h3><p class="text-xs text-gray-500 mt-0.5 font-bold">📞 ${safePhone}</p></div><div class="flex flex-col items-end gap-1"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${s.cls}">${s.label}</span><span class="text-[10px] text-gray-400">${safeTimestamp}</span></div></div><p class="text-xs text-gray-600 bg-slate-50 p-2 rounded-lg border mb-1">📍 <strong>સરનામું:</strong> <strong>${safeAddress}</strong></p>${problemRowHtml}${materialUsedHtml}${timerHtml}<div class="flex flex-wrap justify-between items-center gap-2 border-t pt-2 mt-1"><span class="text-xs text-gray-600">🧑‍🔧 <strong>${safeMechanic}</strong></span><div class="flex gap-1 flex-wrap">${callBtnHtml}<a href="${waUrl}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs px-2.5 py-1.5 rounded-lg font-semibold transition active:scale-95 inline-block">💬 WhatsApp</a>${mapBtnHtml}${acceptButtonHtml}${cylButtonHtml}${forwardButtonHtml}${editButtonHtml}${deleteButtonHtml}</div></div>${closeBtnWrapperHtml}${reopenBtnHtml}${cylPendingBadgeHtml}${cylAdminViewBtnHtml}</div>`;
 }
 
 function startGlobalTimer() { if(timerInterval) clearInterval(timerInterval); timerInterval = setInterval(updateTimers, 1000); }
@@ -3731,6 +3819,9 @@ window.openDetailsModal = function(key) {
             ${solvedTimeHtml}
             ${adminSecurityHtml}
         </div>
+        ${(currentUser && currentUser.role === 'admin' && item.status === 'solved')
+            ? `<button onclick="window.reopenComplaint('${key}')" style="width:100%; margin-top:10px; background:#D97706; color:#fff; border:none; border-radius:10px; padding:11px; font-size:0.92rem; font-weight:800; cursor:pointer;">🔓 ફરિયાદ ફરીથી Open કરો (Re-open)</button>`
+            : ''}
     `;
 
     // Setup action buttons
@@ -4466,6 +4557,261 @@ function _pushMaterialUsedToLedger(complaintKey, mechName, materialUsed, ts, cas
     });
 }
 
+// ═══════════════════════════════════════════════════════════
+// EXTRA SALE — material sold to someone who is NOT a customer / has
+// no complaint in the system. No complaint gets linked; a standalone
+// 'extraSales' record is saved and stock is deducted via mechItemLedger
+// exactly like a normal complaint-close sale would. Closed/confirmed
+// with a fixed verify code (12345) instead of a real consumer number.
+// ═══════════════════════════════════════════════════════════
+const EXTRA_SALE_VERIFY_CODE = '12345';
+const extraSalesRef = ref(db, 'extraSales'); // standalone log, shared read by admin tools if needed
+let _extraSalePhotoData = null;   // base64 data URL of captured photo (optional)
+let _pendingExtraSale = null;     // { mechName, materialUsed, personName, personPhone, cashMemoNumber, photoData }
+
+window.openExtraSaleModal = function() {
+    if (!currentUser || currentUser.role !== 'mechanic') return;
+    const mechName = currentUser.name;
+    const wrap = document.getElementById('extraSaleCheckList');
+    const items = _stockItemsMemory.length ? _stockItemsMemory : _fallbackStockItems;
+    const stockMap = _computeMechanicStockMap(mechName);
+
+    wrap.innerHTML = items.map(item => {
+        const fbKey = item._fbKey;
+        const isSvc = _isServiceStockItem(item);
+        const available = isSvc ? null : (stockMap[item.name] || 0);
+        const outOfStock = !isSvc && available <= 0;
+        return `
+        <div class="border rounded-lg px-2 py-1.5 flex items-center gap-1.5 ${outOfStock ? 'opacity-60 bg-gray-50' : ''}">
+            <input type="checkbox" class="w-4 h-4 shrink-0" data-extra-item-key="${fbKey}" data-extra-item-name="${item.name || 'Item'}"
+                data-max-qty="${outOfStock ? 0 : (available == null ? '' : available)}"
+                ${outOfStock ? 'disabled' : ''}
+                onchange="window.toggleExtraSaleCheck(this)"
+                id="extraItemCheck_${fbKey}">
+            <label for="extraItemCheck_${fbKey}" class="flex-1 min-w-0 ${outOfStock ? 'cursor-not-allowed' : 'cursor-pointer'}">
+                <span class="block text-[13px] font-semibold text-gray-700 truncate leading-tight">${item.name || 'Item'}</span>
+                ${isSvc ? '<span class="text-[9px] text-indigo-500 font-bold">🔧 Service</span>' : (outOfStock ? '<span class="text-[9px] text-red-600 font-bold">🚫 Stock નથી</span>' : `<span class="text-[9px] text-teal-600 font-semibold">Stock: ${available}</span>`)}
+            </label>
+            <input type="number" min="1" ${!isSvc && available > 0 ? `max="${available}"` : ''} value="1" class="shrink-0 w-11 border rounded-md py-1 text-sm text-center bg-gray-100 text-gray-400"
+                data-extra-item-qty="${fbKey}" disabled>
+        </div>`;
+    }).join('');
+
+    document.getElementById('extraSalePersonName').value = '';
+    document.getElementById('extraSalePersonPhone').value = '';
+    document.getElementById('extraSaleCashMemoNumber').value = '';
+    document.getElementById('extraSaleError').classList.add('hidden');
+    window.clearExtraSalePhoto();
+
+    document.getElementById('extraSaleModal').classList.remove('hidden');
+};
+
+window.toggleExtraSaleCheck = function(checkboxEl) {
+    const key = checkboxEl.dataset.extraItemKey;
+    const qtyInput = document.querySelector(`[data-extra-item-qty="${key}"]`);
+    if (!qtyInput) return;
+    qtyInput.disabled = !checkboxEl.checked;
+    qtyInput.classList.toggle('bg-gray-100', !checkboxEl.checked);
+    qtyInput.classList.toggle('text-gray-400', !checkboxEl.checked);
+    qtyInput.classList.toggle('bg-white', checkboxEl.checked);
+    qtyInput.classList.toggle('text-gray-800', checkboxEl.checked);
+    const maxAttr = checkboxEl.dataset.maxQty;
+    if (checkboxEl.checked && maxAttr) {
+        const max = Number(maxAttr);
+        if (max > 0 && Number(qtyInput.value) > max) qtyInput.value = max;
+    }
+};
+
+window.handleExtraSalePhoto = function(evt) {
+    const file = evt.target.files && evt.target.files[0];
+    if (!file) return;
+    _cylCompressImage(file, function(dataUrl) {
+        _extraSalePhotoData = dataUrl;
+        const photoPrev = document.getElementById('extraSalePhotoPreview');
+        const wrap = document.getElementById('extraSalePreviewWrap');
+        if (photoPrev) { photoPrev.src = dataUrl; photoPrev.classList.remove('hidden'); }
+        if (wrap) wrap.classList.remove('hidden');
+    });
+};
+
+window.clearExtraSalePhoto = function() {
+    _extraSalePhotoData = null;
+    const photoPrev = document.getElementById('extraSalePhotoPreview');
+    const wrap = document.getElementById('extraSalePreviewWrap');
+    const photoInput = document.getElementById('extraSalePhotoInput');
+    if (photoPrev) { photoPrev.classList.add('hidden'); photoPrev.src = ''; }
+    if (wrap) wrap.classList.add('hidden');
+    if (photoInput) photoInput.value = '';
+};
+
+window.cancelExtraSale = function() {
+    document.getElementById('extraSaleModal').classList.add('hidden');
+    window.clearExtraSalePhoto();
+};
+
+window.confirmExtraSale = function() {
+    if (!currentUser || currentUser.role !== 'mechanic') return;
+    const mechName = currentUser.name;
+
+    const checked = Array.from(document.querySelectorAll('#extraSaleCheckList input[type=checkbox][data-extra-item-key]:checked'));
+    const materialUsed = checked.map(cb => {
+        const itemKey = cb.dataset.extraItemKey;
+        const itemName = cb.dataset.extraItemName;
+        const qtyInput = document.querySelector(`[data-extra-item-qty="${itemKey}"]`);
+        let qty = Math.max(1, Number(qtyInput ? qtyInput.value : 1) || 1);
+        const maxAttr = cb.dataset.maxQty;
+        if (maxAttr) {
+            const max = Number(maxAttr);
+            if (max > 0 && qty > max) qty = max;
+        }
+        return { itemKey, itemName, qty, paymentType: 'cash' };
+    });
+
+    if (!materialUsed.length) {
+        document.getElementById('extraSaleError').classList.remove('hidden');
+        return;
+    }
+    document.getElementById('extraSaleError').classList.add('hidden');
+
+    // Recheck against the latest ledger just before saving, same guard as the normal Close flow.
+    const latestStock = _computeMechanicStockMap(mechName);
+    const overused = materialUsed.find(material => {
+        const stockItem = _stockItemsMemory.find(it => it._fbKey === material.itemKey || it.name === material.itemName);
+        if (_isServiceStockItem(stockItem) || _isServiceItemGL(material.itemName)) return false;
+        return material.qty > (Number(latestStock[material.itemName]) || 0);
+    });
+    if (overused) {
+        const available = Math.max(0, Number(latestStock[overused.itemName]) || 0);
+        alert(`⚠️ ${overused.itemName} નો ફક્ત ${available} stock ઉપલબ્ધ છે. ${overused.qty} use કરી શકાય નહીં.`);
+        return;
+    }
+
+    const cashMemoRaw = (document.getElementById('extraSaleCashMemoNumber').value || '').trim();
+    const cashMemoNumber = cashMemoRaw ? Number(cashMemoRaw) : null;
+
+    _pendingExtraSale = {
+        mechName,
+        materialUsed,
+        personName: (document.getElementById('extraSalePersonName').value || '').trim(),
+        personPhone: (document.getElementById('extraSalePersonPhone').value || '').trim(),
+        cashMemoNumber,
+        photoData: _extraSalePhotoData || null
+    };
+
+    document.getElementById('extraSaleModal').classList.add('hidden');
+    document.getElementById('extraSaleVerifyInput').value = '';
+    document.getElementById('extraSaleVerifyErrorMsg').style.display = 'none';
+    document.getElementById('extraSaleVerifyModal').classList.remove('hidden');
+};
+
+window.closeExtraSaleVerify = function() {
+    document.getElementById('extraSaleVerifyModal').classList.add('hidden');
+    document.getElementById('extraSaleModal').classList.remove('hidden'); // back to the entry form
+};
+
+window.confirmExtraSaleVerify = function() {
+    if (!_pendingExtraSale) return;
+    const input = document.getElementById('extraSaleVerifyInput');
+    const errMsg = document.getElementById('extraSaleVerifyErrorMsg');
+    const entered = (input.value || '').trim();
+
+    if (entered !== EXTRA_SALE_VERIFY_CODE) {
+        errMsg.textContent = '⚠️ ખોટો Code. ફરી પ્રયત્ન કરો.';
+        errMsg.style.display = 'block';
+        input.style.borderColor = '#B5102A';
+        input.value = '';
+        input.focus();
+        return;
+    }
+
+    const submitBtn = document.getElementById('extraSaleVerifySubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Saving...';
+
+    const sale = _pendingExtraSale;
+    const when = Date.now();
+    const newRef = push(extraSalesRef);
+    const extraSaleKey = newRef.key;
+
+    set(newRef, {
+        mechanicName: sale.mechName,
+        materialUsed: sale.materialUsed,
+        personName: sale.personName || '',
+        personPhone: sale.personPhone || '',
+        cashMemoNumber: (sale.cashMemoNumber != null && !Number.isNaN(sale.cashMemoNumber)) ? sale.cashMemoNumber : null,
+        photoData: sale.photoData || null,
+        createdBy: currentUser ? currentUser.name : '',
+        timestamp: when,
+        dateStr: new Date(when).toLocaleString('en-IN')
+    }).then(() => {
+        _pushExtraSaleToLedger(extraSaleKey, sale.mechName, sale.materialUsed, when, sale.cashMemoNumber);
+        if (sale.cashMemoNumber != null && !Number.isNaN(sale.cashMemoNumber)) {
+            _advanceCashMemoBook(sale.mechName, sale.cashMemoNumber);
+        }
+        _pendingExtraSale = null;
+        document.getElementById('extraSaleVerifyModal').classList.add('hidden');
+        window.clearExtraSalePhoto();
+        submitBtn.disabled = false;
+        submitBtn.textContent = '✅ Verify & Save';
+        if (typeof _showUXToast === 'function') _showUXToast('✅ Extra Sale Entry Save થઈ ગઈ!');
+    }).catch(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '✅ Verify & Save';
+        alert('⚠️ Save કરવામાં ભૂલ આવી. ફરી પ્રયત્ન કરો.');
+    });
+};
+
+// Same ledger-push pattern as _pushMaterialUsedToLedger, but for a standalone Extra
+// Sale (no complaintKey) — deducts stock / accrues commission exactly the same way.
+function _pushExtraSaleToLedger(extraSaleKey, mechName, materialUsed, ts, cashMemoNumber) {
+    if (!mechName || !Array.isArray(materialUsed) || !materialUsed.length) return;
+    const cashMemoNo = (cashMemoNumber != null && !Number.isNaN(cashMemoNumber)) ? cashMemoNumber : null;
+    const mech = _mechanicsMemory.find(m => m.name === mechName);
+    if (!mech) return;
+
+    materialUsed.forEach((material, idx) => {
+        const sourceKey = 'extrasale_' + extraSaleKey + '_' + idx;
+        const ledgerKey = 'auto_' + sourceKey.replace(/[.#$\[\]/]/g, '_');
+        const alreadyExists = _ledgerMemory.some(t => t.sourceKey === sourceKey);
+        if (alreadyExists) return;
+
+        const qty = Number(material.qty) || 0;
+        if (qty <= 0) return;
+
+        const item = _stockItemsMemory.find(it => it._fbKey === material.itemKey) ||
+                     _stockItemsMemory.find(it => it.name === material.itemName);
+        const itemName = material.itemName || item?.name || 'Item';
+        const price = item ? Number(item.purchasePrice) || 0 : 0;
+        const comm  = item ? Number(item.commission) || 0 : 0;
+        const purchaseTotal = price * qty;
+        const commTotal = comm * qty;
+        const depositTotal = purchaseTotal - commTotal;
+        const when = ts || Date.now();
+
+        set(ref(db, 'mechItemLedger/' + ledgerKey), {
+            mechanicKey: mech._fbKey,
+            mechanicName: mech.name,
+            mechanicPhone: mech.phone || '',
+            itemKey: item ? item._fbKey : (material.itemKey || ''),
+            itemName: itemName,
+            qty: qty,
+            entryType: 'sale',
+            purchasePrice: price,
+            commission: comm,
+            purchaseTotal: purchaseTotal,
+            commissionTotal: commTotal,
+            depositAmount: depositTotal,
+            depositStatus: (depositTotal <= 0 ? 'paid' : 'pending'),
+            note: '🧾 Extra Sale (Non-Customer)' + (cashMemoNo != null ? ' · Cash Memo #' + cashMemoNo : ''),
+            cashMemoNumber: cashMemoNo,
+            sourceKey: sourceKey,
+            sourceExtraSaleKey: extraSaleKey,
+            timestamp: when,
+            dateStr: new Date(when).toLocaleString('en-IN')
+        });
+    });
+}
+
 // ---- Photo Modal ----
 
 
@@ -5081,7 +5427,7 @@ window._fetchActivityLog         = function() {
     </div>
     <div style="padding:20px;">
       <p style="font-size:0.82rem; color:#555; margin-bottom:10px; line-height:1.5;">Customer ની LPG Consumer Book માંથી <strong>Consumer Number</strong> દાખલ કરો.</p>
-      <button type="button" onclick="window.openIssueItemFromVerification()" style="width:100%; background:linear-gradient(120deg,#0f766e,#134e4a); color:#fff; border:none; border-radius:10px; padding:11px; font-size:0.88rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:flex; align-items:center; justify-content:center; gap:6px;">📦 Issue Item</button>
+      <button type="button" onclick="window.openIssueItemFromVerification()" style="width:100%; background:linear-gradient(120deg,#0f766e,#134e4a); color:#fff; border:none; border-radius:10px; padding:11px; font-size:0.88rem; font-weight:800; cursor:pointer; margin-bottom:10px; display:none !important; align-items:center; justify-content:center; gap:6px;">📦 Issue Item</button>
       <div id="verifyMaterialSummary" style="display:none; background:#ECFDF5; border:1px solid #99F6E4; border-radius:10px; padding:10px 12px; margin-bottom:14px;"></div>
       <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a4036; margin-bottom:6px;">Consumer Number</label>
       <input id="verifyConsumerInput" type="text" placeholder="Consumer Number દાખલ કરો" style="width:100%; padding:10px 12px; border:2px solid #ece2d2; border-radius:10px; font-size:0.95rem; font-weight:700; color:#1A1A1A; box-sizing:border-box; margin-bottom:10px;" oninput="this.style.borderColor=&#39;#ece2d2&#39;" onkeydown="if(event.key===&#39;Enter&#39;) window.confirmVerification()">
