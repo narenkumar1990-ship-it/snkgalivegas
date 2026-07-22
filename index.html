@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0071)file:///C:/Users/SNKGA%20Godown/Downloads/Live_Tracking_with_fixes.html -->
+<!-- saved from url=(0107)file:///C:/Users/SNKGA%20Godown/Downloads/Shri%20Nrusinh%20Krupa%20Gas%20Agency%20-%20Orange%20Theme_1.html -->
 <html lang="gu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Live Tracking</title>
@@ -855,7 +855,7 @@ window.backToRoleSelect = function() {
 <span class="text-xl md:text-2xl font-extrabold tracking-wide text-yellow-300 hidden" id="mechanicNameTitle">— <span id="mechanicNameText">રાજુ પાદરા</span></span>
 </div>
 <p class="text-xs text-blue-200 mt-0.5">રીઅલ-ટાઇમ ઓનલાઇન પોર્ટલ [<span class="font-bold underline" id="userRoleBadge">રાજુ પાદરા</span>] - <span class="opacity-70">સિસ્ટમ: ઓટો-અપડેટ ચાલુ</span> <span class="opacity-60 ml-1" id="versionBadge">v27</span></p>
-<p class="text-xs md:text-sm font-extrabold text-yellow-200 mt-1 tracking-wide" id="liveClock">📅 સોમવાર, 20/07/2026  🕐 01:22:21 pm</p>
+<p class="text-xs md:text-sm font-extrabold text-yellow-200 mt-1 tracking-wide" id="liveClock">📅 બુધવાર, 22/07/2026  🕐 02:02:55 pm</p>
 </div>
 <div class="flex items-center justify-center gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
 <div class="header-stat-chip bg-blue-50 border border-blue-200 rounded-full px-3 py-1 text-center" id="headerInprogressChip">
@@ -1326,7 +1326,7 @@ window.backToRoleSelect = function() {
           <div id="randomPipeFields" class="hidden mt-2">
             <label class="block text-xs font-bold text-indigo-800 mb-1">નાખેલ પાઇપ (મીટર)</label>
             <input id="randomPipeMeters" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="દા.ત. 4.5" class="w-full border rounded-lg px-2 py-2 text-sm" oninput="window.updateRandomPipeTotal()">
-            <p id="randomPipeTotal" class="text-xs font-extrabold text-indigo-800 mt-2">Rate loading…</p>
+            <p id="randomPipeTotal" class="text-xs font-extrabold text-indigo-800 mt-2">Rate: ₹100 per meter</p>
           </div>
         </div>
         <label class="block text-xs font-bold text-gray-600 mb-1">🔢 Cash Memo નંબર</label>
@@ -6377,4 +6377,170 @@ function anShowMsg(text, type) {
     display: none !important;
   }
 </style>
+
+<!-- =====================================================================
+     ORANGE FLAME THEME — full redesign layer (login → header → cards →
+     buttons → tables → toasts). Loads LAST so every rule here wins over
+     the earlier blue/teal/glass overrides above, without touching any
+     markup, ids, classes or JS logic. Pure re-skin.
+     ===================================================================== -->
+<style>
+  :root{
+    /* ---- Core flame-orange system ---- */
+    --burner-ink:      #1B0F08;   /* near-black ember base */
+    --burner-ink-2:    #2A170B;
+    --ember-red:       #C2410C;   /* deep base of the flame */
+    --ember:           #EA580C;   /* primary orange */
+    --ember-bright:    #FB923C;   /* lighter orange for hovers/gradients */
+    --ember-gold:      #F59E0B;   /* gold edge of the flame */
+    --ember-glow:      #FFD8A8;   /* pale glow / highlights */
+    --paper:           #FFF8F1;   /* warm paper background */
+    --paper-card:      #FFFFFF;
+    --line-warm:       #FBD9B4;   /* warm hairline borders */
+    --text-ink:        #3A2312;
+  }
+
+  /* ---------- Page background ---------- */
+  html, body, body.bg-slate-100 {
+    background:
+      radial-gradient(1100px 480px at 12% -10%, rgba(251,146,60,0.16), transparent 55%),
+      radial-gradient(900px 420px at 100% 0%, rgba(245,158,11,0.12), transparent 60%),
+      #FFF8F1 !important;
+  }
+
+  /* ---------- Header ---------- */
+  header.shadow-lg {
+    background: linear-gradient(120deg, var(--burner-ink) 0%, var(--ember-red) 55%, var(--ember) 100%) !important;
+    box-shadow: 0 8px 26px rgba(194,65,12,0.35) !important;
+  }
+  header.shadow-lg::before {
+    box-shadow: 0 0 0 1px rgba(255,214,168,0.16), 0 0 0 20px rgba(251,146,60,0.08), 0 0 0 40px rgba(245,158,11,0.05) !important;
+  }
+  header h1, header .font-extrabold, header .font-bold {
+    text-shadow: 0 1px 10px rgba(0,0,0,.35) !important;
+  }
+
+  /* ---------- Generic focus ring (inputs / selects / textareas) ---------- */
+  select:focus, input:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(234,88,12,0.22) !important;
+    border-color: var(--ember) !important;
+  }
+  input[type="checkbox"], input[type="radio"] { accent-color: var(--ember) !important; }
+
+  /* ---------- Status pills / borders (kept semantically red/gray/green,
+       but warmed + given an orange hover accent so the palette reads as
+       one family instead of clashing) ---------- */
+  .status-pending    { background:#FCE7D8 !important; color:#9A3412 !important; }
+  .status-inprogress { background:#FDEBD3 !important; color:#7C2D12 !important; }
+  .status-solved     { background:#DCF7E3 !important; color:#166534 !important; }
+
+  .border-pending    { border-left-color: var(--ember-red) !important; }
+  .border-inprogress { border-left-color: var(--burner-ink-2) !important; }
+  .border-solved     { border-left-color: #16A34A !important; }
+
+  .red-zone-card {
+    background-color: #FDECDC !important;
+    border-color: var(--ember-red) !important;
+    box-shadow: 0 4px 14px rgba(194,65,12,0.20) !important;
+  }
+
+  #complaintList .new-card:hover {
+    box-shadow: 0 10px 24px rgba(194,65,12,0.16) !important;
+  }
+  #complaintList::-webkit-scrollbar-thumb { background: var(--ember-gold) !important; }
+
+  /* ---------- Toasts ---------- */
+  .notification-toast {
+    background: linear-gradient(120deg, var(--burner-ink), var(--ember-red)) !important;
+    box-shadow: 0 10px 30px rgba(90,44,16,0.4) !important;
+  }
+
+  /* ---------- Generic filled buttons that were blue/sky/teal ---------- */
+  button[style*="linear-gradient(135deg,#2563eb"],
+  button[style*="linear-gradient(135deg, #2563eb"] {
+    background: linear-gradient(135deg, var(--ember), var(--ember-bright)) !important;
+  }
+  button[style*="0284c7"], button[style*="#0284c7"] {
+    background: linear-gradient(135deg, var(--ember), var(--ember-gold)) !important;
+    box-shadow: 0 7px 14px rgba(234,88,12,.24) !important;
+  }
+  button[style*="#0f766e"], button[style*="0f766e"] {
+    background: linear-gradient(135deg, var(--ember), var(--burner-ink-2)) !important;
+  }
+  div[style*="#0f766e"] { background: linear-gradient(135deg, var(--ember), var(--burner-ink-2)) !important; }
+  .sub2, [style*="color:#0f766e"] { color: var(--ember-red) !important; }
+
+  .hover\:bg-blue-100:hover,
+  .hover\:bg-blue-500:hover,
+  .hover\:bg-blue-800:hover { background-color: #FDE4CC !important; }
+  .bg-blue-50, .bg-blue-100 { background-color: #FEF1E4 !important; }
+  .bg-blue-600, .bg-blue-700 { background-color: var(--ember) !important; }
+  .text-blue-600, .text-blue-700, .text-blue-800 { color: var(--ember-red) !important; }
+  .border-blue-100, .border-blue-200, .border-blue-600 { border-color: var(--line-warm) !important; }
+
+  .bg-orange-50 { background-color: #FEF1E4 !important; }
+  .bg-orange-500 { background-color: var(--ember) !important; }
+  .text-orange-600, .text-orange-700 { color: var(--ember-red) !important; }
+  .border-orange-200, .border-orange-400 { border-color: var(--ember-gold) !important; }
+  .hover\:bg-orange-600:hover { background-color: var(--ember-red) !important; }
+
+  /* ---------- Summary boxes (In Progress / Closed chips) ---------- */
+  #summaryBoxes .text-xl { color: var(--ember-red) !important; }
+
+  /* ---------- Admin desktop table preview borders/hover ---------- */
+  body:not(.role-mechanic) #complaintList .complaint-table-head {
+    border: 1px solid var(--line-warm) !important;
+    background: linear-gradient(100deg, #FFF3E6, #FFFDF9) !important;
+    color: #8A4B22 !important;
+  }
+  body:not(.role-mechanic) #complaintList .complaint-table-row {
+    border: 1px solid var(--line-warm) !important;
+    border-left: 4px solid var(--ember-gold) !important;
+  }
+  body:not(.role-mechanic) #complaintList .complaint-table-row:hover {
+    border-color: var(--ember-bright) !important;
+    box-shadow: 0 10px 22px rgba(234,88,12,.14) !important;
+  }
+
+  /* ---------- LOGIN SCREEN — full flame re-skin ---------- */
+  #loginScreen {
+    background:
+      radial-gradient(circle at 15% 15%, rgba(251,146,60,.35), transparent 34%),
+      radial-gradient(circle at 85% 85%, rgba(245,158,11,.25), transparent 38%),
+      linear-gradient(135deg, var(--burner-ink) 0%, #3A1D0B 55%, var(--burner-ink) 100%) !important;
+  }
+  #loginScreen > div {
+    background: linear-gradient(135deg, rgba(255,255,255,.90), rgba(255,247,237,.86)) !important;
+    border: 1px solid rgba(251,146,60,.45) !important;
+    box-shadow: 0 24px 70px rgba(30,15,5,.55), inset 0 1px 0 rgba(255,255,255,.5) !important;
+  }
+  #loginScreen h1, #loginScreen h2, #loginScreen .font-extrabold { color: var(--text-ink) !important; }
+  #loginScreen .text-gray-400,
+  #loginScreen .text-gray-600 { color: #7C4A26 !important; }
+  #loginScreen #loginStep1 > p { color: var(--text-ink) !important; font-weight: 700 !important; }
+  #loginScreen #loginStep1 button {
+    border: 1px solid rgba(194,65,12,.30) !important;
+    box-shadow: 0 10px 20px rgba(60,25,5,.18), inset 0 1px 0 rgba(255,255,255,.20) !important;
+  }
+  #loginScreen #loginStep1 button:first-child {
+    background: linear-gradient(135deg, rgba(234,88,12,.92), rgba(124,45,18,.92)) !important;
+  }
+  #loginScreen #loginStep1 button:last-child {
+    background: linear-gradient(135deg, rgba(245,158,11,.92), rgba(154,52,18,.92)) !important;
+  }
+  #loginScreen #loginStep1 button:hover { filter: brightness(1.08); }
+  #loginScreen input {
+    background: #fff !important;
+    border-color: rgba(234,88,12,.35) !important;
+  }
+  #loginScreen input:focus {
+    box-shadow: 0 0 0 3px rgba(234,88,12,0.25) !important;
+    border-color: var(--ember) !important;
+  }
+  #loginScreen #loginStep2 > button:last-of-type {
+    background: linear-gradient(135deg, var(--ember), var(--ember-red)) !important;
+    box-shadow: 0 9px 18px rgba(194,65,12,.30) !important;
+  }
+</style>
+
 </body></html>
