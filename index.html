@@ -113,6 +113,22 @@
             pointer-events: none;
         }
         header h1 { text-shadow: 0 1px 10px rgba(0,0,0,.3); letter-spacing: .01em; }
+
+        /* ===== 🎉 Close Celebration: emoji falling from top ===== */
+        #emojiRainLayer {
+            position: fixed; inset: 0; pointer-events: none; z-index: 99999; overflow: hidden;
+        }
+        .falling-emoji {
+            position: absolute; top: 40%; will-change: transform, opacity;
+            animation: emojiPop ease-out forwards;
+        }
+        @keyframes emojiPop {
+            0%   { transform: translateY(20px) scale(0.3); opacity: 0; }
+            25%  { transform: translateY(-10px) scale(1.3); opacity: 1; }
+            40%  { transform: translateY(0) scale(1); opacity: 1; }
+            75%  { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(60px) scale(0.8); opacity: 0; }
+        }
     </style>
 <script src="file:///C:/Users/SNKGA%20Godown/AppData/Local/Packages/5319275A.51895FA4EA97F_cv1g1gvanyjgm/LocalState/sessions/42D5A232DC1CCEECB4B538FC67556B76A372D8C9/transfers/2026-27/%E0%AA%B6%E0%AB%8D%E0%AA%B0%E0%AB%80%20%E0%AA%A8%E0%AB%83%E0%AA%B8%E0%AA%BF%E0%AA%82%E0%AA%B9%20%E0%AA%95%E0%AB%83%E0%AA%AA%E0%AA%BE%20%E0%AA%97%E0%AB%87%E0%AA%B8%20%E0%AA%8F%E0%AA%9C%E0%AA%A8%E0%AB%8D%E0%AA%B8%E0%AB%80%20-%20Live%20Tracking_files/3.4_b7FH_VOo__RVNb_1VUL_ZeC3_PKcs_AiUK_UaFe.17"></script>
 <script>
@@ -370,10 +386,6 @@ body.role-mechanic #mechanicSummaryBoxes .text-2xl,
 body.role-mechanic #mechanicSummaryBoxes .text-xl { font-size: 15px !important; line-height: 1.1 !important; }
 body.role-mechanic #mechanicSummaryBoxes .text-xs { font-size: 8.5px !important; line-height: 1.15 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 body.role-mechanic #mechanicDailyStats { gap: 5px !important; margin-bottom: 6px !important; }
-body.role-mechanic #mechanicMoneyStrip { gap: 5px !important; margin-bottom: 6px !important; }
-body.role-mechanic #mechanicMoneyStrip > div, body.role-mechanic #mechanicMoneyStrip > button { padding: 6px 4px !important; border-radius: 8px !important; width: 100%; }
-body.role-mechanic #mechanicMoneyStrip .text-lg { font-size: 14px !important; }
-body.role-mechanic #mechanicMoneyStrip .text-\[11px\] { font-size: 8.5px !important; }
 body.role-mechanic #listContainer { gap: 6px !important; }
 body.role-mechanic main, body.role-mechanic .max-w-7xl { padding-left: 8px !important; padding-right: 8px !important; }
 body.role-mechanic #myPerfBtn, body.role-mechanic .top-action-btn { font-size: 11px !important; padding: 5px 9px !important; }
@@ -1056,17 +1068,7 @@ window.backToRoleSelect = function() {
 <span class="text-sm font-extrabold text-orange-700" id="mAvgTime">45મિનિટ</span>
 </div>
 </div>
-<!-- Mechanic-only: Item Commission app data — Closing Stock (tap for item-wise popup) & Total Due -->
-<div class="grid grid-cols-2 gap-2 mb-2" id="mechanicMoneyStrip">
-<button onclick="window.openClosingStockModal()" class="bg-indigo-50 border border-indigo-200 rounded-xl p-2.5 text-center shadow-sm active:scale-95 transition">
-<div class="text-[11px] text-indigo-700 font-semibold mb-0.5">📦 Closing Stock <span class="text-indigo-400">▶</span></div>
-<div class="text-lg font-extrabold text-indigo-700" id="mHeaderClosingStock">0 નંગ</div>
-</button>
-<div class="bg-red-50 border border-red-200 rounded-xl p-2.5 text-center shadow-sm">
-<div class="text-[11px] text-red-700 font-semibold mb-0.5">💰 કુલ Due (Office માં જમા)</div>
-<div class="text-lg font-extrabold text-green-700" id="mHeaderTotalDue">₹0</div>
-</div>
-</div>
+
 <div class="flex justify-between items-center border-b pb-2">
 <h2 class="text-base font-bold text-gray-700">📋 ફરિયાદોની લાઈવ યાદી</h2>
 <div class="flex items-center gap-2">
@@ -1244,18 +1246,6 @@ window.backToRoleSelect = function() {
             ⬇️ હમણાં Update કરો
         </button>
 </div>
-</div>
-<!-- Mechanic: Closing Stock item-wise popup -->
-<div class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4 hidden" id="closingStockModal">
-  <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full border p-5">
-    <div class="flex justify-between items-center mb-1">
-      <h2 class="text-base font-extrabold text-indigo-700">📦 Closing Stock — Item-wise</h2>
-      <button class="text-gray-400 hover:text-gray-600 text-xl font-bold" onclick="window.closeClosingStockModal()">✕</button>
-    </div>
-    <p class="text-xs text-gray-500 mb-3">તમારી પાસે હાલ કયો item કેટલો બાકી છે.</p>
-    <div id="closingStockModalList" class="space-y-1.5 max-h-80 overflow-y-auto"></div>
-    <button onclick="window.closeClosingStockModal()" class="w-full mt-4 bg-slate-100 hover:bg-slate-200 text-gray-700 py-2.5 rounded-lg font-bold text-sm">બંધ કરો</button>
-  </div>
 </div>
 
 <!-- Material used before closing a complaint -->
@@ -1629,7 +1619,6 @@ onValue(itemMasterRef, (snap) => {
     _stockItemsMemory = data && typeof data === 'object'
         ? Object.entries(data).map(([key, value]) => ({ _fbKey: key, ...(value || {}) }))
         : [];
-    renderMechanicMoneyStrip();
 });
 
 // Shared with the Stock & Commission app: Issue/Return/Sale entries — used to show the
@@ -1639,7 +1628,6 @@ onValue(mechLedgerRef, (snap) => {
     _ledgerMemory = data && typeof data === 'object'
         ? Object.entries(data).map(([key, value]) => ({ _fbKey: key, ...(value || {}) }))
         : [];
-    renderMechanicMoneyStrip();
 });
 
 function _isServiceItemGL(name) {
@@ -1679,64 +1667,6 @@ function _computeMechanicStockMap(mechName) {
     });
     return stockMap;
 }
-
-// Mechanic-only header strip: Closing Stock (item-wise, excluding Service items) + Total Due (₹)
-function _computeMechanicClosingRows(mechName) {
-    const stockMap = _computeMechanicStockMap(mechName);
-    const rows = [];
-    Object.keys(stockMap).forEach(name => {
-        if (_isServiceItemGL(name)) return;
-        if (stockMap[name] > 0) rows.push({ name, closing: stockMap[name] });
-    });
-    rows.sort((a, b) => a.name.localeCompare(b.name));
-    return rows;
-}
-
-function renderMechanicMoneyStrip() {
-    if (!currentUser || currentUser.role !== 'mechanic') return;
-    const stockEl = document.getElementById('mHeaderClosingStock');
-    const dueEl = document.getElementById('mHeaderTotalDue');
-    if (!stockEl || !dueEl) return;
-
-    const mechName = currentUser.name;
-    const rows = _computeMechanicClosingRows(mechName);
-    const closingTotal = rows.reduce((sum, r) => sum + r.closing, 0);
-    stockEl.textContent = closingTotal + ' નંગ';
-
-    // If the popup is open, keep it live-updated too
-    if (!document.getElementById('closingStockModal').classList.contains('hidden')) {
-        window.openClosingStockModal();
-    }
-
-    let totalDue = 0;
-    _ledgerMemory.forEach(t => {
-        if (t.mechanicName !== mechName) return;
-        if (t.depositStatus === 'paid') return;
-        totalDue += Number(t.depositAmount) || 0;
-    });
-
-    dueEl.textContent = '₹' + totalDue.toFixed(0);
-    dueEl.classList.toggle('text-red-700', totalDue > 0);
-    dueEl.classList.toggle('text-green-700', totalDue <= 0);
-}
-
-window.openClosingStockModal = function() {
-    if (!currentUser || currentUser.role !== 'mechanic') return;
-    const rows = _computeMechanicClosingRows(currentUser.name);
-    const listEl = document.getElementById('closingStockModalList');
-    listEl.innerHTML = rows.length
-        ? rows.map(r => `
-            <div class="flex justify-between items-center bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2">
-                <span class="text-sm font-semibold text-gray-700">${r.name}</span>
-                <span class="text-base font-extrabold text-indigo-700">${r.closing} નંગ</span>
-            </div>`).join('')
-        : '<p class="text-xs text-gray-400 text-center py-3">કોઈ Stock બાકી નથી</p>';
-    document.getElementById('closingStockModal').classList.remove('hidden');
-};
-
-window.closeClosingStockModal = function() {
-    document.getElementById('closingStockModal').classList.add('hidden');
-};
 
 // In-memory cache — Firebase listener દ્વારા live update થાય
 let _mechanicsMemory = [...DEFAULT_MECHANICS];
@@ -2088,7 +2018,6 @@ function restoreSession(id) {
         document.getElementById('summaryBoxes').classList.add('hidden');
         document.getElementById('mechanicSummaryBoxes').classList.remove('hidden');
         document.getElementById('mechanicDailyStats').classList.remove('hidden');
-        document.getElementById('mechanicMoneyStrip').classList.remove('hidden');
         document.getElementById('mechanicNameText').textContent = currentUser.name;
         document.getElementById('mechanicNameTitle').classList.remove('hidden');
         document.getElementById('dailyReportBtn').classList.add('hidden');
@@ -2103,8 +2032,7 @@ function restoreSession(id) {
         setupMechanicPresence(id);
         const wmElM = document.getElementById('adminWatermark');
         if (wmElM) wmElM.style.display = 'none';
-        renderMechanicMoneyStrip();
-    } else {
+        } else {
         document.body.classList.remove('role-mechanic');
         document.getElementById('adminFormContainer').classList.remove('hidden');
         document.getElementById('listContainer').className = 'md:col-span-2 space-y-3';
@@ -2112,7 +2040,6 @@ function restoreSession(id) {
         document.getElementById('summaryBoxes').classList.remove('hidden');
         document.getElementById('mechanicSummaryBoxes').classList.add('hidden');
         document.getElementById('mechanicDailyStats').classList.add('hidden');
-        document.getElementById('mechanicMoneyStrip').classList.add('hidden');
         document.getElementById('mechanicNameTitle').classList.add('hidden');
         document.getElementById('dailyReportBtn').classList.remove('hidden');
         document.getElementById('deleteAllBtn').classList.remove('hidden');
@@ -2253,7 +2180,6 @@ window.handleLogin = function() {
             document.getElementById('summaryBoxes').classList.add('hidden');
             document.getElementById('mechanicSummaryBoxes').classList.remove('hidden');
         document.getElementById('mechanicDailyStats').classList.remove('hidden');
-        document.getElementById('mechanicMoneyStrip').classList.remove('hidden');
             document.getElementById('mechanicNameText').textContent = currentUser.name;
             document.getElementById('mechanicNameTitle').classList.remove('hidden');
             document.getElementById('dailyReportBtn').classList.add('hidden');
@@ -2266,8 +2192,7 @@ window.handleLogin = function() {
             setupMechanicPresence(id);
             const wmElM2 = document.getElementById('adminWatermark');
             if (wmElM2) wmElM2.style.display = 'none';
-            renderMechanicMoneyStrip();
-        } else {
+                } else {
             document.body.classList.remove('role-mechanic');
             document.getElementById('adminFormContainer').classList.remove('hidden');
             document.getElementById('listContainer').className = 'md:col-span-2 space-y-3';
@@ -2275,7 +2200,6 @@ window.handleLogin = function() {
             document.getElementById('summaryBoxes').classList.remove('hidden');
             document.getElementById('mechanicSummaryBoxes').classList.add('hidden');
         document.getElementById('mechanicDailyStats').classList.add('hidden');
-        document.getElementById('mechanicMoneyStrip').classList.add('hidden');
             document.getElementById('mechanicNameTitle').classList.add('hidden');
             document.getElementById('dailyReportBtn').classList.remove('hidden');
             document.getElementById('deleteAllBtn').classList.remove('hidden');
@@ -3003,6 +2927,7 @@ window.confirmOverride = function() {
             overriddenAt: now
         });
         if (typeof _showUXToast === 'function') _showUXToast('🔓 ફરિયાદ override સાથે close થઈ!');
+        celebrateComplaintClosed();
     } else {
         // Mechanic: save late-reason on the complaint, then continue with the
         // normal close flow (still requires Consumer Number Verification)
@@ -3269,6 +3194,7 @@ window.approveCylinderRequest = function() {
         startedAt: item.startedAt || item.acceptedAt || now
     }).then(() => {
         if (typeof _showUXToast === 'function') _showUXToast('✅ Cylinder Change Verify થયું — ફરિયાદ Solve થઈ!');
+        celebrateComplaintClosed();
         window.closeCylinderViewModal();
     });
 };
@@ -3359,8 +3285,7 @@ function renderList() {
                 elAvgTime.textContent = '—';
             }
         }
-        renderMechanicMoneyStrip();
-    }
+        }
 
     let filtered = keys.filter(k => {
         if (currentUser.role === 'mechanic') return allData[k].mechanic === currentUser.name;
@@ -3863,9 +3788,13 @@ window.showDailyReport = function() {
     // Per mechanic count
     const mechanicStats = {};
     todayData.forEach(d => {
-        if (!mechanicStats[d.mechanic]) mechanicStats[d.mechanic] = { total: 0, solved: 0, pending: 0 };
+        if (!mechanicStats[d.mechanic]) mechanicStats[d.mechanic] = { total: 0, solved: 0, pending: 0, timeSum: 0, timeCnt: 0 };
         mechanicStats[d.mechanic].total++;
-        if (d.status === 'solved') mechanicStats[d.mechanic].solved++;
+        if (d.status === 'solved') {
+            mechanicStats[d.mechanic].solved++;
+            const start = d.startedAt || d.acceptedAt || d.createdAt || 0;
+            if (d.solvedAt && start) { mechanicStats[d.mechanic].timeSum += d.solvedAt - start; mechanicStats[d.mechanic].timeCnt++; }
+        }
         else mechanicStats[d.mechanic].pending++;
     });
 
@@ -3873,14 +3802,16 @@ window.showDailyReport = function() {
     let mechanicHTML = '';
     let mechanicText = '';
     Object.entries(mechanicStats).forEach(([name, s]) => {
+        const avgT = s.timeCnt > 0 ? fmtHMS(s.timeSum / s.timeCnt) : '–';
         mechanicHTML += `<div class="flex justify-between items-center bg-slate-50 border rounded-lg px-3 py-2">
             <span class="font-semibold text-gray-700">🧑‍🔧 ${name}</span>
             <span class="text-xs space-x-2">
                 <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">✅ ${s.solved}</span>
                 <span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-bold">⏳ ${s.pending}</span>
+                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold">⏱️ ${avgT}</span>
             </span>
         </div>`;
-        mechanicText += `  • ${name}: ✅ Solved ${s.solved} | ⏳ Pending ${s.pending}\n`;
+        mechanicText += `   • ${name}  —  Closed: ${s.solved}, Pending: ${s.pending}, Avg. Time: ${avgT}\n`;
     });
 
     document.getElementById('reportContent').innerHTML = `
@@ -3906,9 +3837,13 @@ window.showDailyReport = function() {
     `;
 
     // Store text for WhatsApp share
-    _reportText = `📊 *શ્રી નૃસિંહ કૃપા ગેસ એજન્સી*\n🗓️ Daily Report — ${todayStr}\n\n` +
-        `📋 કુલ ફરિયાદ: ${total}\n✅ Solved: ${solved}\n⏳ Pending: ${pending + inprog}\n\n` +
-        `🧑‍🔧 *Mechanic Summary:*\n${mechanicText || 'આજની કોઈ ફરિયાદ નથી'}`;
+    const todayStrEn = todayStart.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    _reportText = `🙏 Good day Sir,\n\n` +
+        `*Shree Nrusinh Krupa Gas Agency*\nDaily Complaint Report\n📅 Date: ${todayStrEn}\n\n` +
+        `Please find today's complaint status below:\n\n` +
+        `📋 Total Complaints: ${total}\n✅ Closed: ${solved}\n⏳ Pending/In-progress: ${pending + inprog}\n\n` +
+        `🧑‍🔧 *Mechanic-wise Details:*\n${mechanicText || '   No complaints recorded today.\n'}\n` +
+        `Submitted for your kind information.\nThank you. 🙏`;
 
     // Store structured data for PDF generation
     _reportData = { todayStr, total, solved, pending: pending + inprog, mechanicStats };
@@ -4399,6 +4334,7 @@ function _doCloseComplaint(key, item) {
     }
     if (!item.startedAt) closingUpdates.startedAt = item.acceptedAt || Date.now();
     update(ref(db, 'complaints/' + key), closingUpdates).then(() => {
+        celebrateComplaintClosed();
         // Persist the stock deduction into mechItemLedger right now (not just on the complaint
         // record) so that if this complaint is later deleted, the mechanic's used/sold material
         // stays accounted for and doesn't silently get added back to their available stock.
@@ -4592,6 +4528,66 @@ function fmtHMS(ms) {
     return h > 0 ? `${h}ક ${m}મ` : `${m} મિ`;
 }
 
+// ===== 🎮 Gamification: Points + Badges for Mechanics =====
+function calcPoints(s) {
+    // 10 base points per solved complaint
+    let pts = s.solved * 10;
+    // Speed bonus per solved complaint, based on average time
+    if (s.timeCnt > 0) {
+        const avgMs = s.timeSum / s.timeCnt;
+        if (avgMs < 1800000)      pts += s.solved * 5;  // under 30 min avg → +5 each
+        else if (avgMs < 3600000) pts += s.solved * 2;  // under 60 min avg → +2 each
+    }
+    // Small credit for forwarded complaints (still effort)
+    pts += (s.forwarded || 0) * 2;
+    return pts;
+}
+
+function getBadges(s, isRank1) {
+    const badges = [];
+    const mpct = s.total > 0 ? Math.round((s.solved / s.total) * 100) : 0;
+    const avgMs = s.timeCnt > 0 ? s.timeSum / s.timeCnt : 0;
+    if (isRank1 && s.solved > 0) badges.push({ icon: '👑', label: 'Champion' });
+    if (avgMs > 0 && avgMs < 1800000) badges.push({ icon: '⚡', label: 'Speed Demon' });
+    if (s.total > 0 && mpct === 100) badges.push({ icon: '💯', label: 'Perfect Record' });
+    if (s.solved >= 100) badges.push({ icon: '🎯', label: 'Century Club' });
+    else if (s.solved >= 50) badges.push({ icon: '⭐', label: '50 Club' });
+    else if (s.solved >= 10) badges.push({ icon: '🔰', label: 'Getting Started' });
+    if ((s.forwarded || 0) >= 5) badges.push({ icon: '🤝', label: 'Team Player' });
+    return badges;
+}
+
+function renderBadgeRow(badges) {
+    if (!badges.length) return '';
+    return `<div class="flex gap-1 flex-wrap mt-1.5">${badges.map(b =>
+        `<span class="text-[9px] bg-white border border-gray-200 px-1.5 py-0.5 rounded-full font-bold" title="${b.label}">${b.icon} ${b.label}</span>`
+    ).join('')}</div>`;
+}
+
+function renderPointsPill(pts) {
+    return `<span class="text-[10px] bg-gradient-to-r from-amber-400 to-orange-500 text-white px-2 py-0.5 rounded-full font-extrabold shadow-sm">🏵️ ${pts} pts</span>`;
+}
+
+// ===== 🎉 Celebration: single happy emoji when a complaint is closed =====
+const _closeEmojis = ['🎉','✅','🥳','👏','💪'];
+function celebrateComplaintClosed() {
+    let layer = document.getElementById('emojiRainLayer');
+    if (!layer) {
+        layer = document.createElement('div');
+        layer.id = 'emojiRainLayer';
+        document.body.appendChild(layer);
+    }
+    const span = document.createElement('span');
+    span.className = 'falling-emoji';
+    span.textContent = _closeEmojis[Math.floor(Math.random() * _closeEmojis.length)];
+    span.style.left = '50vw';
+    span.style.marginLeft = '-30px';
+    span.style.fontSize = '60px';
+    span.style.animationDuration = '1.6s';
+    layer.appendChild(span);
+    setTimeout(() => span.remove(), 1900);
+}
+
 function renderLivePerf() {
     const el = document.getElementById('livePerfContent');
     if (!el) return;
@@ -4645,6 +4641,7 @@ function renderLivePerf() {
     });
     const medals = ['🥇','🥈','🥉'];
     const rangeLabelLp = { today: 'આજ', week: 'આ અઠવાડિયું', month: 'આ મહિનો', all: 'બધો સમય' }[_lpRange];
+    const rangeLabelLpEn = { today: 'Today', week: 'This Week', month: 'This Month', all: 'All Time' }[_lpRange];
 
     let rows = '';
     let textRows = '';
@@ -4652,6 +4649,8 @@ function renderLivePerf() {
         const mpct = s.total > 0 ? Math.round((s.solved / s.total) * 100) : 0;
         const avg  = s.timeCnt > 0 ? fmtHMS(s.timeSum / s.timeCnt) : '–';
         const medal = medals[i] || `${i+1}.`;
+        const pts = calcPoints(s);
+        const badges = getBadges(s, i === 0);
         const barColor = mpct >= 80 ? '#22c55e' : mpct >= 50 ? '#f59e0b' : '#ef4444';
         const fastestBadge = (i === 0 && s.timeCnt > 0) ? `<span class="text-[9px] bg-emerald-500 text-white px-1.5 py-0.5 rounded-full font-bold animate-pulse">🏆 Fastest</span>` : '';
         const forwardedBadge = s.forwarded > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full font-bold">↪️${s.forwarded}</span>` : '';
@@ -4659,7 +4658,10 @@ function renderLivePerf() {
         <div class="border rounded-lg px-3 py-2 mb-2" style="background:#f8faff">
           <div class="flex justify-between items-center mb-1">
             <span class="text-xs font-bold text-gray-800">${medal} ${name}</span>
-            <span class="text-[10px] font-extrabold" style="color:${barColor}">${mpct}%</span>
+            <span class="flex items-center gap-1.5">
+              ${renderPointsPill(pts)}
+              <span class="text-[10px] font-extrabold" style="color:${barColor}">${mpct}%</span>
+            </span>
           </div>
           <div class="w-full rounded-full h-1.5 mb-1" style="background:#e5e7eb">
             <div class="h-1.5 rounded-full" style="width:${mpct}%;background:${barColor};transition:width .4s"></div>
@@ -4672,11 +4674,16 @@ function renderLivePerf() {
             ${forwardedBadge}
             ${fastestBadge}
           </div>
+          ${renderBadgeRow(badges)}
         </div>`;
-        textRows += `  ${medal} ${name}: ✅${s.solved} | ⏳${s.pending} | ${mpct}% | avg: ${avg}\n`;
+        textRows += `   ${medal} ${name}  —  Closed: ${s.solved}, Pending: ${s.pending}, In-progress: ${s.inprog}, Success Rate: ${mpct}%, Avg. Time: ${avg}\n`;
     });
 
-    _lpReportText = `📈 *Live Performance — ${rangeLabelLp}*\n🗓️ ${new Date().toLocaleDateString('gu-IN', { day:'2-digit', month:'2-digit', year:'numeric' })}\n\n📋 કુલ: ${total} | ✅ ${solved} | ⏳ ${pend+inp}\n\n🧑‍🔧 *Mechanic-wise:*\n${textRows || 'કોઈ ડેટા નથી'}`;
+    _lpReportText = `🙏 Good day Sir,\n\n` +
+        `*Shree Nrusinh Krupa Gas Agency*\nPerformance Report — ${rangeLabelLpEn}\n📅 Date: ${new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'2-digit', year:'numeric' })}\n\n` +
+        `Summary:\n📋 Total Complaints: ${total}\n✅ Closed: ${solved}\n⏳ Pending/In-progress: ${pend+inp}\n\n` +
+        `🧑‍🔧 *Mechanic-wise Details:*\n${textRows || '   No data available.\n'}\n` +
+        `Submitted for your kind information.\nThank you. 🙏`;
 
     const resetNotice = performanceResetAt > 0
         ? `<div class="text-[10px] bg-orange-50 border border-orange-200 text-orange-700 rounded-lg px-2 py-1 mb-2">🔄 Reset: ${new Date(performanceResetAt).toLocaleString('gu-IN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} થી</div>`
@@ -4928,6 +4935,8 @@ function renderMyPerf() {
     const myRankLabel = myRankIdx === 0 ? '🥇 1st' : myRankIdx === 1 ? '🥈 2nd' : myRankIdx === 2 ? '🥉 3rd' : myRankIdx >= 0 ? `${myRankIdx+1}th` : '–';
     const myBarColor = myPct >= 80 ? '#22c55e' : myPct >= 50 ? '#f59e0b' : '#ef4444';
     const isFastest = myRankIdx === 0 && myStats.timeCnt > 0;
+    const myPoints = calcPoints(myStats);
+    const myBadges = getBadges(myStats, myRankIdx === 0);
 
     // My card (highlighted)
     const myCard = `
@@ -4938,6 +4947,9 @@ function renderMyPerf() {
           ${isFastest ? '<span class="ml-2 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full font-bold animate-pulse">🏆 Fastest!</span>' : ''}
         </div>
         <span class="text-xs font-extrabold bg-indigo-600 text-white px-3 py-1 rounded-full">${myRankLabel}</span>
+      </div>
+      <div class="flex justify-center mb-3">
+        <span class="text-sm bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-1.5 rounded-full font-extrabold shadow-md">🏵️ ${myPoints} Points</span>
       </div>
       <div class="grid grid-cols-2 gap-2 mb-3">
         <div class="bg-white rounded-lg p-2 text-center border">
@@ -4961,6 +4973,7 @@ function renderMyPerf() {
       <div class="w-full rounded-full h-2.5" style="background:#e5e7eb">
         <div class="h-2.5 rounded-full" style="width:${myPct}%;background:${myBarColor};transition:width .4s"></div>
       </div>
+      ${myBadges.length ? `<div class="mt-3 pt-2 border-t border-indigo-100"><div class="text-[9px] font-bold text-indigo-400 uppercase tracking-wide mb-1">🏅 Your Badges</div>${renderBadgeRow(myBadges)}</div>` : '<div class="mt-3 pt-2 border-t border-indigo-100 text-[10px] text-gray-400 text-center">🔒 Solve more complaints to unlock badges!</div>'}
       ${myStats.forwarded > 0 ? `<div class="mt-2 text-[10px] text-orange-600 font-semibold">↪️ તમે ${myStats.forwarded} ફરિયાદ Forward કરી — એ count Solved/Pending માં નથી પણ તમારી મહેનત ગણાય</div>` : ''}
     </div>`;
 
@@ -4970,6 +4983,8 @@ function renderMyPerf() {
         const mpct = s.total > 0 ? Math.round((s.solved / s.total) * 100) : 0;
         const avg = s.timeCnt > 0 ? fmtHMS(s.timeSum / s.timeCnt) : '–';
         const medal = medals[i] || `${i+1}.`;
+        const pts = calcPoints(s);
+        const badges = getBadges(s, i === 0);
         const barColor = mpct >= 80 ? '#22c55e' : mpct >= 50 ? '#f59e0b' : '#ef4444';
         const isMe = name === myName;
         const bgStyle = isMe ? 'background:#eef2ff;border-color:#6366f1;border-width:2px' : 'background:#f8faff';
@@ -4977,7 +4992,10 @@ function renderMyPerf() {
         <div class="border rounded-lg px-3 py-2 mb-2" style="${bgStyle}">
           <div class="flex justify-between items-center mb-1">
             <span class="text-xs font-bold ${isMe ? 'text-indigo-700' : 'text-gray-800'}">${medal} ${name}${isMe ? ' 👈 તમે' : ''}</span>
-            <span class="text-[10px] font-extrabold" style="color:${barColor}">${mpct}%</span>
+            <span class="flex items-center gap-1.5">
+              ${renderPointsPill(pts)}
+              <span class="text-[10px] font-extrabold" style="color:${barColor}">${mpct}%</span>
+            </span>
           </div>
           <div class="w-full rounded-full h-1.5 mb-1" style="background:#e5e7eb">
             <div class="h-1.5 rounded-full" style="width:${mpct}%;background:${barColor};transition:width .4s"></div>
@@ -4990,6 +5008,7 @@ function renderMyPerf() {
             ${s.forwarded > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full font-bold">↪️${s.forwarded}</span>` : ''}
             ${i === 0 && s.timeCnt > 0 ? '<span class="text-[9px] bg-emerald-500 text-white px-1.5 py-0.5 rounded-full font-bold animate-pulse">🏆 Fastest</span>' : ''}
           </div>
+          ${renderBadgeRow(badges)}
         </div>`;
     });
 
