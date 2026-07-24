@@ -1008,6 +1008,17 @@ window.backToRoleSelect = function() {
 <input class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50 font-bold text-gray-800" id="custConsumerNumber" placeholder="LPG Consumer Number" type="text">
 <p class="text-[10px] text-gray-400 mt-0.5">ગ્રાહકની LPG Consumer Book માંથી નંબર દાખલ કરો</p>
 </div>
+<!-- Scheduled Time (Customer એ ચોક્કસ time માંગ્યો હોય તો) -->
+<div class="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+<label class="flex items-center gap-2 cursor-pointer" onclick="document.getElementById('custScheduleCheck').click()">
+<input class="w-4 h-4 accent-amber-600 cursor-pointer" id="custScheduleCheck" type="checkbox" onchange="document.getElementById('custScheduledTimeWrap').classList.toggle('hidden', !this.checked)">
+<span class="text-sm font-bold text-amber-700">🕓 Customer એ ચોક્કસ Time માંગ્યો છે?</span>
+</label>
+<div class="hidden mt-2" id="custScheduledTimeWrap">
+<input class="w-full px-3 py-2 border rounded-lg text-sm bg-white font-bold text-gray-800" id="custScheduledTime" type="datetime-local">
+<p class="text-[10px] text-amber-600 mt-0.5">⚠️ SLA/Timer આ time થી જ ગણાશે — mechanic ના performance પર અસર નહીં થાય.</p>
+</div>
+</div>
 <!-- Urgent Flag -->
 <div class="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2 cursor-pointer" onclick="document.getElementById(&#39;urgentCheck&#39;).click()">
 <input class="w-4 h-4 accent-red-600 cursor-pointer" id="urgentCheck" type="checkbox">
@@ -2121,11 +2132,31 @@ window.submitComplaint = function () {
     if (!name || !phone || !address) { showFormMsg('⚠️ નામ, ફોન અને સરનામું ભરો!', 'error'); return; }
     if (!/^\d{10}$/.test(phone)) { showFormMsg('⚠️ 10 આંકડાનો મોબાઈલ નંબર દાખલ કરો.', 'error'); return; }
     if (!consumerNumber) { showFormMsg('⚠️ Consumer Number ભરો!', 'error'); return; }
+
+    // 🕓 Scheduled Time: customer એ ચોક્કસ time માંગ્યો હોય તો (દા.ત. "અત્યારે નોંધો પણ 4 કલાક પછી આવજો")
+    const isScheduled = document.getElementById('custScheduleCheck') && document.getElementById('custScheduleCheck').checked;
+    const scheduledInput = document.getElementById('custScheduledTime') ? document.getElementById('custScheduledTime').value : '';
+    let scheduledTs = null;
+    if (isScheduled && scheduledInput) {
+        const parsed = new Date(scheduledInput).getTime();
+        if (!isNaN(parsed) && parsed > Date.now()) scheduledTs = parsed;
+    }
+    if (isScheduled && !scheduledTs) {
+        showFormMsg('⚠️ Scheduled Time ભવિષ્યનો (future) સમય પસંદ કરો.', 'error');
+        return;
+    }
+    const bookedNow = Date.now();
+    // ✅ scheduledTs હોય તો એ જ effective start (createdAt/acceptedAt/startedAt) બને — timer/SLA/performance
+    // બધું scheduled time થી ગણાશે, જેથી customer ના પોતાના delay ની mechanic ના performance પર અસર ન થાય.
+    // અસલી booking time અલગથી bookedAt માં સચવાય છે.
+    const effectiveTs = scheduledTs || bookedNow;
     const newComplaint = {
         customerName: name, phone, address,
         problem: problem || '—', mechanic, urgent: urgent || false,
-        status: 'inprogress', createdAt: Date.now(), acceptedAt: Date.now(), startedAt: Date.now(), 
-        timestamp: new Date().toLocaleString('en-IN'),
+        status: 'inprogress', createdAt: effectiveTs, acceptedAt: effectiveTs, startedAt: effectiveTs,
+        timestamp: new Date(effectiveTs).toLocaleString('en-IN'),
+        bookedAt: bookedNow,
+        scheduledAt: scheduledTs || null,
         consumerNumber: consumerNumber,
         verified: false,
         verifiedBy: '',
@@ -2144,6 +2175,9 @@ window.submitComplaint = function () {
         document.getElementById('custProblemOther').value = '';
         document.getElementById('custProblemOther').classList.add('hidden');
         document.getElementById('urgentCheck').checked = false;
+        if (document.getElementById('custScheduleCheck')) document.getElementById('custScheduleCheck').checked = false;
+        if (document.getElementById('custScheduledTime')) document.getElementById('custScheduledTime').value = '';
+        if (document.getElementById('custScheduledTimeWrap')) document.getElementById('custScheduledTimeWrap').classList.add('hidden');
         showFormMsg('📴 Offline! ફરિયાદ locally save. Internet આવે ત્યારે sync.', 'success');
         return;
     }
@@ -2156,20 +2190,27 @@ window.submitComplaint = function () {
             document.getElementById('custProblemOther').value = '';
             document.getElementById('custProblemOther').classList.add('hidden');
             document.getElementById('urgentCheck').checked = false;
+            if (document.getElementById('custScheduleCheck')) document.getElementById('custScheduleCheck').checked = false;
+            if (document.getElementById('custScheduledTime')) document.getElementById('custScheduledTime').value = '';
+            if (document.getElementById('custScheduledTimeWrap')) document.getElementById('custScheduledTimeWrap').classList.add('hidden');
             showFormMsg('✅ ફરિયાદ સફળતાથી save થઈ!', 'success');
             // WhatsApp notification to mechanic — auto send (no confirm)
             const waNum = mechanicWhatsApp[mechanic];
             if (waNum) {
                 let waMsg;
                 const isLeakage = LEAKAGE_PROBLEMS.includes(problem);
-                const waHeader = isLeakage ? '🚨 GAS LEAKAGE COMPLAINT' : '🔔 NEW COMPLAINT';
+                const waHeader = isLeakage ? '🚨 GAS LEAKAGE COMPLAINT' : (scheduledTs ? '🕓 SCHEDULED COMPLAINT' : '🔔 NEW COMPLAINT');
+                const scheduleNote = scheduledTs
+                    ? ' | 🕓 ગ્રાહકે માંગેલો સમય: ' + new Date(scheduledTs).toLocaleString('en-IN', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'}) + ' (આ સમયે જ જવાનું છે)'
+                    : '';
                 waMsg =
                     waHeader + ' | ' +
                     'ગ્રાહક: ' + name + ' | ' +
                     'સરનામું: ' + address + ' | ' +
                     'સંપર્ક: ' + phone + ' | ' +
                     'ફરિયાદ: ' + (isLeakage ? 'Gas Leakage' : (problem || '—')) + ' | ' +
-                    'ફાળવેલ મેકેનિક: ' + mechanic + ' | ' +
+                    'ફાળવેલ મેકેનિક: ' + mechanic +
+                    scheduleNote + ' | ' +
                     'શ્રી નૃસિંહ કૃપા ગેસ એજન્સી';
                 const waUrl = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(waMsg);
                 setTimeout(() => window.open(waUrl, '_blank'), 400);
@@ -3514,6 +3555,9 @@ function buildCard(key, item) {
     const isRedZone = isLeakageCard && item.status !== 'solved' && elapsed >= (2 * 60 * 60 * 1000);
     const redZoneBadge = isRedZone ? `<span class="text-[10px] font-extrabold bg-red-600 text-white px-2 py-0.5 rounded-full animate-pulse">🔴 RED ZONE</span>` : '';
     const urgentBadge = item.urgent ? `<span class="text-[10px] font-extrabold bg-orange-500 text-white px-2 py-0.5 rounded-full animate-pulse">🚨 URGENT</span>` : '';
+    const scheduledBadge = item.scheduledAt
+        ? `<span class="text-[10px] font-extrabold bg-amber-500 text-white px-2 py-0.5 rounded-full" title="ગ્રાહકે માંગેલો સમય">🕓 Scheduled: ${new Date(item.scheduledAt).toLocaleString('en-IN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</span>`
+        : '';
     const cardExtraClass = cylPending
         ? 'cyl-pending-card'
         : (item.urgent && item.status !== 'solved'
@@ -3565,7 +3609,7 @@ function buildCard(key, item) {
     <div style="flex:1;min-width:0;">
       <h3 style="font-size:19px;font-weight:900;color:#1A1A1A;margin:0 0 2px 0;line-height:1.2;">
         <span onclick="window.openDetailsModal('${key}')" style="cursor:pointer;border-bottom:1.5px dotted #B45309;">${safeCustomerName}</span>
-        ${urgentBadge} ${redZoneBadge}
+        ${urgentBadge} ${redZoneBadge} ${scheduledBadge}
       </h3>
       <div style="font-size:14px;font-weight:700;color:#1A1A1A;">📞 ${safePhone}</div>
     </div>
@@ -3624,7 +3668,7 @@ function buildCard(key, item) {
     const materialUsedHtml = Array.isArray(item.materialUsed) && item.materialUsed.length
         ? `<div class="text-xs text-teal-800 bg-teal-50 border border-teal-200 rounded-lg p-2 mb-2">📦 <strong>વપરાયેલ Material:</strong> ${item.materialUsed.map(m => `${escapeHtml(m.itemName)} × ${escapeHtml(m.qty)} (${m.paymentType === 'free' ? '🎁 Free' : '💵 Cash'})`).join(', ')}${item.cashMemoNumber != null ? ` <span class="text-amber-700 font-bold">🔢 Cash Memo #${escapeHtml(item.cashMemoNumber)}</span>` : ''}</div>`
         : '';
-    return `<div id="card-${key}" class="new-card bg-white p-4 rounded-xl shadow-sm border-l-4 ${s.border} border border-slate-100 ${cardExtraClass}"><div class="flex flex-wrap justify-between items-start gap-2 mb-2"><div><h3 class="font-bold text-gray-800"><span onclick="window.openDetailsModal('${key}')" style="cursor:pointer;text-decoration:underline dotted;" title="વિગત જુઓ">${safeCustomerName}</span> ${urgentBadge} ${redZoneBadge}</h3><p class="text-xs text-gray-500 mt-0.5 font-bold">📞 ${safePhone}</p></div><div class="flex flex-col items-end gap-1"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${s.cls}">${s.label}</span><span class="text-[10px] text-gray-400">${safeTimestamp}</span></div></div><p class="text-xs text-gray-600 bg-slate-50 p-2 rounded-lg border mb-1">📍 <strong>સરનામું:</strong> <strong>${safeAddress}</strong></p>${problemRowHtml}${materialUsedHtml}${timerHtml}<div class="flex flex-wrap justify-between items-center gap-2 border-t pt-2 mt-1"><span class="text-xs text-gray-600">🧑‍🔧 <strong>${safeMechanic}</strong></span><div class="flex gap-1 flex-wrap">${callBtnHtml}<a href="${waUrl}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs px-2.5 py-1.5 rounded-lg font-semibold transition active:scale-95 inline-block">💬 WhatsApp</a>${mapBtnHtml}${acceptButtonHtml}${cylButtonHtml}${forwardButtonHtml}${editButtonHtml}${deleteButtonHtml}</div></div>${closeBtnWrapperHtml}${cylPendingBadgeHtml}${cylAdminViewBtnHtml}</div>`;
+    return `<div id="card-${key}" class="new-card bg-white p-4 rounded-xl shadow-sm border-l-4 ${s.border} border border-slate-100 ${cardExtraClass}"><div class="flex flex-wrap justify-between items-start gap-2 mb-2"><div><h3 class="font-bold text-gray-800"><span onclick="window.openDetailsModal('${key}')" style="cursor:pointer;text-decoration:underline dotted;" title="વિગત જુઓ">${safeCustomerName}</span> ${urgentBadge} ${redZoneBadge} ${scheduledBadge}</h3><p class="text-xs text-gray-500 mt-0.5 font-bold">📞 ${safePhone}</p></div><div class="flex flex-col items-end gap-1"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${s.cls}">${s.label}</span><span class="text-[10px] text-gray-400">${safeTimestamp}</span></div></div><p class="text-xs text-gray-600 bg-slate-50 p-2 rounded-lg border mb-1">📍 <strong>સરનામું:</strong> <strong>${safeAddress}</strong></p>${problemRowHtml}${materialUsedHtml}${timerHtml}<div class="flex flex-wrap justify-between items-center gap-2 border-t pt-2 mt-1"><span class="text-xs text-gray-600">🧑‍🔧 <strong>${safeMechanic}</strong></span><div class="flex gap-1 flex-wrap">${callBtnHtml}<a href="${waUrl}" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs px-2.5 py-1.5 rounded-lg font-semibold transition active:scale-95 inline-block">💬 WhatsApp</a>${mapBtnHtml}${acceptButtonHtml}${cylButtonHtml}${forwardButtonHtml}${editButtonHtml}${deleteButtonHtml}</div></div>${closeBtnWrapperHtml}${cylPendingBadgeHtml}${cylAdminViewBtnHtml}</div>`;
 }
 
 function startGlobalTimer() { if(timerInterval) clearInterval(timerInterval); timerInterval = setInterval(updateTimers, 1000); }
@@ -3663,6 +3707,13 @@ window.openDetailsModal = function(key) {
 
     const urgentHtml = item.urgent ? `<span class="inline-block text-[10px] font-extrabold bg-orange-500 text-white px-2 py-0.5 rounded-full">🚨 URGENT</span>` : '';
     const forwardedHtml = item.forwardedFrom ? `<div class="text-xs text-orange-600 bg-orange-50 rounded-lg px-3 py-2">↪️ Forward: <strong>${item.forwardedFrom}</strong> → <strong>${item.mechanic}</strong><br><span class="text-gray-400">${fmtTs(item.forwardedAt)}</span></div>` : '';
+    const scheduledInfoHtml = item.scheduledAt
+        ? `<div class="text-xs bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-amber-800">
+            🕓 <strong>Customer એ માંગેલો Service Time:</strong> ${fmtTs(item.scheduledAt)}<br>
+            📞 <strong>ખરેખર Call/Booking Time:</strong> ${fmtTs(item.bookedAt)}<br>
+            <span class="text-[10px] text-amber-600">Timer/SLA/Performance ઉપર દર્શાવેલા Service Time થી જ ગણાય છે.</span>
+          </div>`
+        : '';
 
     // Admin-only: Consumer Number + Verification info
     let adminSecurityHtml = '';
@@ -3706,6 +3757,7 @@ window.openDetailsModal = function(key) {
             <div class="text-xs bg-white border rounded-lg p-2"><span class="text-gray-400">📍 સરનામું:</span><br><strong>${item.address || '—'}</strong></div>
             ${item.problem && item.problem !== '—' ? `<div class="text-xs bg-red-50 border border-red-100 rounded-lg p-2 text-red-700"><span class="text-gray-400">⚠️ સમસ્યા:</span><br><strong>${item.problem}</strong></div>` : ''}
             ${forwardedHtml}
+            ${scheduledInfoHtml}
             ${solvedTimeHtml}
             ${adminSecurityHtml}
         </div>
