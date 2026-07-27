@@ -4368,7 +4368,7 @@ function renderBadgeRow(badges) {
 }
 
 function renderPointsPill(pts) {
-    return `<span class="text-[10px] bg-gradient-to-r from-amber-400 to-orange-500 text-white px-2 py-0.5 rounded-full font-extrabold shadow-sm">🏵️ ${pts} pts</span>`;
+    return `<span class="text-[10px] px-2 py-0.5 rounded-full font-extrabold shadow-sm" style="background:linear-gradient(90deg,#fbbf24,#f97316);color:#ffffff;">🏵️ ${pts} pts</span>`;
 }
 
 // ===== 🎉 Celebration: single happy emoji when a complaint is closed =====
@@ -4748,7 +4748,7 @@ function renderMyPerf() {
         <span class="text-xs font-extrabold bg-indigo-600 text-white px-3 py-1 rounded-full">${myRankLabel}</span>
       </div>
       <div class="flex justify-center mb-3">
-        <span class="text-sm bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-1.5 rounded-full font-extrabold shadow-md">🏵️ ${myPoints} Points</span>
+        <span class="text-sm px-4 py-1.5 rounded-full font-extrabold shadow-md" style="background:linear-gradient(90deg,#fbbf24,#f97316);color:#ffffff;">🏵️ ${myPoints} Points</span>
       </div>
       <div class="grid grid-cols-2 gap-2 mb-3">
         <div class="bg-white rounded-lg p-2 text-center border">
@@ -6229,9 +6229,4 @@ function anShowMsg(text, type) {
     <button onclick="window.runScanAllDeleted()" class="w-full py-2 rounded-lg font-bold text-xs text-white active:scale-95 transition" style="background:linear-gradient(135deg,#F5A623,#B45309)">🔍 બધી Deleted ફરિયાદ Scan કરો (એકસાથે)</button>
     <div id="rdStatusText" class="text-xs font-bold text-gray-400 text-center py-2"></div>
     <div id="rdResultsList" class="space-y-2"></div>
-  </div>
-</div>
-</div>
-
-
-</body></html>
+  </div
