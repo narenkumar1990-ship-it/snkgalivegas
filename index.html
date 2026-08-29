@@ -4,6 +4,11 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Live Tracking</title>
 <style>
+/* Prevent the retired role-selection screen and unstyled login from flashing at startup. */
+#loginScreen { visibility: hidden; }
+#loginStep1 { display: none !important; }
+#loginStep2 { display: block !important; }
+</style><style>
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-12px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -961,7 +966,7 @@ body:not(.role-mechanic) #complaintList .new-card .rounded-full.text-xs {
     <span id="loginVersionBadge" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full">v2.0</span>
   </div>
   <div id="loginClock" class="text-xs font-bold mb-4">📅 29/08/2026   🕐 11:34:53 am</div>
-  <div id="loginStep1" class="">
+  <div id="loginStep1" class="hidden">
     <p class="text-sm font-semibold text-gray-600 mb-3">તમે કોણ છો?</p>
     <div class="flex gap-3">
       <button onclick="selectLoginRole(&#39;admin&#39;)" class="flex-1 py-4 rounded-xl font-bold text-sm transition active:scale-95 shadow-md login-role-card" style="background:linear-gradient(135deg,#141414,#262626);color:white;border:2px solid #E0102A">
@@ -974,7 +979,7 @@ body:not(.role-mechanic) #complaintList .new-card .rounded-full.text-xs {
       </button>
     </div>
   </div>
-  <div id="loginStep2" class="hidden">
+  <div id="loginStep2" class="">
     <div class="flex items-center gap-2 mb-4">
       <button onclick="backToRoleSelect()" class="text-xs text-gray-400 hover:text-gray-600 font-bold">← પાછા</button>
       <span id="loginRoleLabel" class="text-sm font-bold" style="color:#E0102A">🛡️ Admin Login</span>
@@ -1003,7 +1008,8 @@ body:not(.role-mechanic) #complaintList .new-card .rounded-full.text-xs {
 <div id="loginFlameGlow"></div><div id="loginParticles"><span style="left: 63.6636%; animation-duration: 12.2068s; animation-delay: 3.66498s; opacity: 0.51;"></span><span style="left: 29.0286%; animation-duration: 6.67279s; animation-delay: 6.21245s; opacity: 0.52;"></span><span style="left: 45.6548%; animation-duration: 13.9977s; animation-delay: 2.27455s; opacity: 0.8;"></span><span style="left: 32.6579%; animation-duration: 10.0109s; animation-delay: 7.8268s; opacity: 0.53;"></span><span style="left: 11.7942%; animation-duration: 11.0416s; animation-delay: 4.35003s; opacity: 0.46;"></span><span style="left: 21.3114%; animation-duration: 6.96526s; animation-delay: 3.50212s; opacity: 0.6;"></span><span style="left: 16.9018%; animation-duration: 6.79357s; animation-delay: 2.04904s; opacity: 0.77;"></span><span style="left: 39.6013%; animation-duration: 8.2168s; animation-delay: 7.65101s; opacity: 0.39;"></span><span style="left: 11.1625%; animation-duration: 11.1079s; animation-delay: 2.48308s; opacity: 0.71;"></span><span style="left: 48.3662%; animation-duration: 6.00107s; animation-delay: 4.85797s; opacity: 0.37;"></span><span style="left: 85.8079%; animation-duration: 8.32575s; animation-delay: 2.22974s; opacity: 0.61;"></span><span style="left: 55.7548%; animation-duration: 12.3688s; animation-delay: 3.7001s; opacity: 0.36;"></span><span style="left: 47.3439%; animation-duration: 6.91585s; animation-delay: 0.340658s; opacity: 0.49;"></span><span style="left: 33.1328%; animation-duration: 10.0181s; animation-delay: 1.73269s; opacity: 0.43;"></span><span style="left: 86.8947%; animation-duration: 11.757s; animation-delay: 4.72653s; opacity: 0.4;"></span><span style="left: 29.7721%; animation-duration: 6.93765s; animation-delay: 3.54903s; opacity: 0.77;"></span><span style="left: 73.1285%; animation-duration: 13.3397s; animation-delay: 4.60209s; opacity: 0.41;"></span><span style="left: 35.6081%; animation-duration: 13.3312s; animation-delay: 3.73852s; opacity: 0.58;"></span><span style="left: 62.119%; animation-duration: 9.76898s; animation-delay: 5.47309s; opacity: 0.46;"></span><span style="left: 21.524%; animation-duration: 7.44285s; animation-delay: 1.38666s; opacity: 0.75;"></span><span style="left: 53.1967%; animation-duration: 10.7202s; animation-delay: 2.43065s; opacity: 0.7;"></span><span style="left: 98.8662%; animation-duration: 12.723s; animation-delay: 5.62531s; opacity: 0.41;"></span></div></div>
 
 <script>
-window._loginRole = null;
+// સીધું મૂળ login form ખોલો; જૂનું role-selection પેજ હવે startup પર દેખાતું નથી.
+window._loginRole = 'admin';
 window.selectLoginRole = function(role) {
     window._loginRole = role;
     document.getElementById("loginStep1").classList.add("hidden");
@@ -1017,8 +1023,8 @@ window.selectLoginRole = function(role) {
     setTimeout(()=>inp.focus(),100);
 };
 window.backToRoleSelect = function() {
-    document.getElementById("loginStep1").classList.remove("hidden");
-    document.getElementById("loginStep2").classList.add("hidden");
+    document.getElementById("loginStep1").classList.add("hidden");
+    document.getElementById("loginStep2").classList.remove("hidden");
     document.getElementById("loginError").classList.add("hidden");
 };
 </script>
@@ -1974,8 +1980,8 @@ function resetIdleTimer() {
     idleTimer = setTimeout(() => {
         if (currentUser) {
             handleLogout();
-            document.getElementById('loginStep1').classList.remove('hidden');
-            document.getElementById('loginStep2').classList.add('hidden');
+            document.getElementById('loginStep1').classList.add('hidden');
+            document.getElementById('loginStep2').classList.remove('hidden');
             const errEl = document.getElementById('loginError');
             errEl.textContent = '⏰ 30 મિનિટ inactive — ફરી login કરો.';
             errEl.classList.remove('hidden');
@@ -2271,8 +2277,8 @@ window.handleLogout = function() {
     document.getElementById('loginPasswordInput').value = '';
     document.getElementById('passwordWrapper').classList.add('hidden');
     document.getElementById('mechanicNameTitle').classList.add('hidden');
-    document.getElementById('loginStep1').classList.remove('hidden');
-    document.getElementById('loginStep2').classList.add('hidden');
+    document.getElementById('loginStep1').classList.add('hidden');
+    document.getElementById('loginStep2').classList.remove('hidden');
     document.getElementById('loginError').classList.add('hidden');
     document.getElementById('loginScreen').classList.remove('hidden');
     document.getElementById('appContent').classList.add('hidden');
@@ -2373,7 +2379,8 @@ window.submitComplaint = function () {
         verificationLocked: false,
         verificationMethod: '',
         createdById: (currentUser && currentUser.id) || '',
-        createdByName: (currentUser && currentUser.name) || ''
+        // દરેક નવી ફરિયાદ સાથે મોકલનારનું નામ ફરજિયાત રીતે સચવાય અને card પર દેખાય.
+        createdByName: (currentUser && (currentUser.name || currentUser.id)) || 'System'
     };
     if (!navigator.onLine) {
         // Offline: save to local queue
@@ -6940,8 +6947,8 @@ window.CUSTOMER_DATA = [["7249705735","C.K.P. SAHAKARI MANDALI LTD. BARODA","","
             var key = normalizeKey(cnInput.value);
             if (!key) { showLookupMsg(cnInput, '', ''); return; }
             var cached = CUSTOMER_MAP.get(key) || CUSTOMER_MAP.get(lookupKey(key));
-            if (cached) { applyMatch(cached); return; }
             if (!window.__fb_get || !window.__fb_ref || !window.__fb_db) {
+                if (cached) { applyMatch(cached); return; }
                 showLookupMsg(cnInput, '❌ Firebase connect નથી — Internet check કરો.', 'err');
                 return;
             }
@@ -6972,6 +6979,7 @@ window.CUSTOMER_DATA = [["7249705735","C.K.P. SAHAKARI MANDALI LTD. BARODA","","
             }).then(function (rec) {
                 if (requestId !== latestRequest) return;
                 if (!rec) {
+                    if (cached) { applyMatch(cached); return; }
                     showLookupMsg(cnInput, bulkUploadInProgress ? '⏳ Customer list upload ચાલુ છે — પૂર્ણ થયા પછી ફરી search કરો.' : '⚠️ આ Consumer Number ડેટાબેઝમાં નથી — "નવો ગ્રાહક ઉમેરો" દબાવો', 'err');
                     return;
                 }
@@ -6980,7 +6988,9 @@ window.CUSTOMER_DATA = [["7249705735","C.K.P. SAHAKARI MANDALI LTD. BARODA","","
                 CUSTOMER_MAP.set(lookupKey(key), match);
                 applyMatch(match);
             }).catch(function () {
-                if (requestId === latestRequest) showLookupMsg(cnInput, '❌ Customer lookup ન થયું — Internet check કરો.', 'err');
+                if (requestId !== latestRequest) return;
+                if (cached) { applyMatch(cached); return; }
+                showLookupMsg(cnInput, '❌ Customer lookup ન થયું — Internet check કરો.', 'err');
             });
         }
 
@@ -7433,4 +7443,30 @@ window.CUSTOMER_DATA = [["7249705735","C.K.P. SAHAKARI MANDALI LTD. BARODA","","
     body:not(.role-mechanic) #complaintList .new-card h3 { font-size: 14px !important; }
   }
 </style>
-</body></html>
+<style id="extra-compact-complaint-cards">
+  /* Dense admin list: keep important fields visible while fitting more cards on screen. */
+  body:not(.role-mechanic) #complaintList .new-card,
+  body:not(.role-mechanic) #complaintList .complaint-table-row { min-height: 0 !important; padding: 0.48rem 0.6rem !important; border-radius: 10px !important; }
+  body:not(.role-mechanic) #complaintList .complaint-table-row + .complaint-table-row { margin-top: 0.36rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card h3 { font-size: 0.78rem !important; line-height: 1rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .text-xs { font-size: 0.64rem !important; line-height: 0.82rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .text-\[10px\] { font-size: 8px !important; line-height: 0.72rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .mb-2 { margin-bottom: 0.2rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .mt-2 { margin-top: 0.2rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .p-2 { padding: 0.28rem 0.42rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .py-3 { padding-top: 0.34rem !important; padding-bottom: 0.34rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .py-1\.5 { padding-top: 0.16rem !important; padding-bottom: 0.16rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .pt-2 { padding-top: 0.25rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .gap-2 { gap: 0.2rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card > p.text-xs { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+<script id="login-screen-reveal">
+(function () {
+  var showLogin = function () {
+    var screen = document.getElementById('loginScreen');
+    if (screen) screen.style.visibility = 'visible';
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showLogin);
+  else showLogin();
+})();
+</script></body></html>
