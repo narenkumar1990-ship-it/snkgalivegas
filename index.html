@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="gu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<meta name="theme-color" content="#0f172a">
 <title>Live Tracking</title>
 <style>
 /* Prevent the retired role-selection screen and unstyled login from flashing at startup. */
@@ -7468,4 +7469,140 @@ window.CUSTOMER_DATA = [["7249705735","C.K.P. SAHAKARI MANDALI LTD. BARODA","","
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showLogin);
   else showLogin();
 })();
-</script></body></html>
+</script><style id="mobile-responsive-final">
+/* ===================================================================
+   MOBILE (Chrome Android / phone) FIT — presentation only.
+   No JavaScript / Firebase / logic changed. Applies only <= 767px.
+   =================================================================== */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media screen and (max-width: 767px) {
+  html, body { overflow-x: hidden !important; max-width: 100vw; }
+  body { padding-bottom: env(safe-area-inset-bottom, 0px); -webkit-tap-highlight-color: rgba(0,0,0,.08); }
+  button, a, select, label, input[type="checkbox"] { touch-action: manipulation; }
+  img { max-width: 100%; }
+
+  /* ---------- Header: compact, wraps neatly, scrolls away to free screen ---------- */
+  #appContent > header { position: relative !important; padding: 8px 10px !important; }
+  #appContent > header > .max-w-6xl {
+    margin-left: 0 !important; margin-right: 0 !important;
+    min-height: 0 !important; align-items: stretch !important; gap: 8px !important;
+  }
+  #appContent > header > .max-w-6xl > div:first-child { width: 100%; text-align: left; }
+  #appContent > header > .max-w-6xl > div:first-child > div:first-child::after {
+    font-size: 1rem !important; white-space: normal !important; line-height: 1.25 !important;
+  }
+  #appContent > header > .max-w-6xl > div:first-child > div:first-child { gap: 8px !important; flex-wrap: nowrap !important; }
+  #appContent > header .opacity-70 { display: none !important; }       /* "સિસ્ટમ: ઓટો-અપડેટ ચાલુ" */
+  #appContent > header p { font-size: 11px !important; line-height: 1.35 !important; }
+  #appContent > header > .max-w-6xl > div:last-child {
+    justify-content: flex-start !important; gap: 6px !important; width: 100% !important;
+  }
+  #appContent > header button,
+  #appContent > header #langToggle,
+  #appContent > header span.bg-green-500 {
+    min-height: 34px; padding: 6px 11px !important; font-size: 12px !important;
+  }
+  #appContent > header #closedReportBtn { font-size: 12px !important; padding: 6px 12px !important; }
+
+  /* ---------- Page container & grid ---------- */
+  #appContent > .max-w-6xl {
+    margin-left: 0 !important; margin-right: 0 !important;
+    padding: 10px !important; padding-top: 12px !important; gap: 14px !important;
+  }
+  #adminFormContainer > .bg-white { padding: 14px !important; }
+  #adminFormContainer, #listContainer { min-width: 0; }
+  #adminWatermark { width: 96vw !important; top: 90px !important; }
+
+  /* ---------- Form fields: comfortable touch size, no auto-zoom ---------- */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea {
+    font-size: 16px !important; min-height: 44px;
+  }
+  textarea { min-height: 80px; }
+  #complaintForm button[onclick="submitComplaint()"] { min-height: 48px; font-size: 15px !important; }
+  #custScheduleCheck, #urgentCheck { width: 20px !important; height: 20px !important; flex-shrink: 0; }
+  .customer-actions-buttons { grid-template-columns: 1fr !important; }
+
+  /* ---------- List header: title on top, action buttons in a swipe strip ---------- */
+  #listContainer > .flex.justify-between.items-center.border-b { flex-direction: column; align-items: stretch !important; gap: 8px; }
+  #listContainer > .flex.justify-between.items-center.border-b > .flex.items-center {
+    flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    padding: 2px 2px 6px; gap: 6px !important; scrollbar-width: thin;
+  }
+  #listContainer > .flex.justify-between.items-center.border-b > .flex.items-center > * { flex-shrink: 0; white-space: nowrap; }
+  #listContainer > .flex.justify-between.items-center.border-b button { min-height: 34px; font-size: 12px !important; padding: 5px 12px !important; }
+  #mechanicFilterWrapper select, #searchInput { min-height: 44px; }
+
+  /* Filter chips (સ્ટેટસ) */
+  .filter-btn { min-height: 36px; padding: 6px 12px !important; font-size: 12px !important; }
+
+  /* Mechanic summary boxes */
+  #mechanicSummaryBoxes { gap: 6px !important; }
+  #mechanicSummaryBoxes > div { padding: 8px 4px !important; }
+
+  /* ---------- Complaint list: normal page scroll + readable cards ---------- */
+  #complaintList { max-height: none !important; overflow: visible !important; padding-right: 0 !important; }
+  body:not(.role-mechanic) #complaintList .new-card,
+  body:not(.role-mechanic) #complaintList .complaint-table-row {
+    padding: 12px !important; border-radius: 14px !important;
+  }
+  body:not(.role-mechanic) #complaintList .complaint-table-row + .complaint-table-row { margin-top: 10px !important; }
+  body:not(.role-mechanic) #complaintList .new-card h3 { font-size: 15px !important; line-height: 1.3 !important; }
+  body:not(.role-mechanic) #complaintList .new-card .text-xs { font-size: 12.5px !important; line-height: 1.4 !important; }
+  body:not(.role-mechanic) #complaintList .new-card .text-\[10px\] { font-size: 11px !important; line-height: 1.3 !important; }
+  body:not(.role-mechanic) #complaintList .new-card .mb-2 { margin-bottom: .4rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .mt-2 { margin-top: .4rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .p-2 { padding: .45rem .55rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card .gap-2 { gap: .4rem !important; }
+  body:not(.role-mechanic) #complaintList .new-card > p.text-xs { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+  #complaintList .new-card, #complaintList .new-card * { overflow-wrap: anywhere; word-break: break-word; }
+  #complaintList .new-card > .flex { flex-wrap: wrap; }
+  #complaintList .new-card .flex.justify-between.items-center { flex-wrap: wrap; gap: 8px; }
+  #complaintList .new-card .flex.justify-between.items-center > div:last-child { flex-wrap: wrap; gap: 6px; }
+  #complaintList .new-card button, #complaintList .new-card a { min-height: 38px; }
+  #complaintList .new-card:hover { transform: none; }
+
+  /* ---------- Live performance panel ---------- */
+  #livePerfPanel { padding: 12px !important; }
+  .lp-btn { min-height: 32px; padding: 5px 12px !important; font-size: 11px !important; }
+
+  /* ---------- Popups / modals: always fit in the phone screen ---------- */
+  .fixed.inset-0 { padding: 10px !important; align-items: center; }
+  .fixed.inset-0 > div {
+    max-width: 100% !important; width: 100%;
+    max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px);
+    overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  }
+  .fixed.inset-0 > div table, #appContent table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #toneModal > div, #verificationPopup > div { max-height: calc(100dvh - 24px); overflow-y: auto; }
+
+  /* ---------- Toasts / banners ---------- */
+  #toastContainer { left: 8px !important; right: 8px !important; top: 8px !important; max-width: none !important; }
+  .notification-toast { min-width: 0 !important; width: 100%; }
+  #offlineSyncBadge { max-width: calc(100vw - 20px); }
+
+  /* ---------- Login screen ---------- */
+  #loginScreen { padding: 10px !important; }
+  #loginScreen:not(.hidden) > div:first-of-type {
+    width: calc(100vw - 20px) !important; max-width: 400px !important; padding: 16px !important;
+    max-height: calc(100vh - 20px) !important; max-height: calc(100dvh - 20px) !important;
+  }
+  #loginScreen img[alt="Indian Oil"] { width: 120px !important; height: 120px !important; margin-bottom: 8px !important; }
+  #loginScreen img[alt="Shri Nrusinh Krupa Gas Agency"] { max-width: 220px !important; }
+  #loginScreen input { font-size: 16px !important; min-height: 46px; }
+  #loginScreen .login-submit-btn { min-height: 48px; font-size: 15px !important; }
+}
+
+/* Very small phones */
+@media screen and (max-width: 380px) {
+  #appContent > header > .max-w-6xl > div:first-child > div:first-child::after { font-size: .92rem !important; }
+  #appContent > .max-w-6xl { padding: 8px !important; }
+  #loginScreen img[alt="Indian Oil"] { width: 96px !important; height: 96px !important; }
+}
+
+/* Landscape phones: login card must scroll, not get cut */
+@media screen and (max-height: 520px) and (orientation: landscape) {
+  #loginScreen img[alt="Indian Oil"] { width: 70px !important; height: 70px !important; margin-bottom: 4px !important; }
+}
+</style>
+
+</body></html>
