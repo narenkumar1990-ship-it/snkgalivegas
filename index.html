@@ -991,7 +991,7 @@ body:not(.role-mechanic) #complaintList .new-card .rounded-full.text-xs {
       <button onclick="backToRoleSelect()" class="text-xs text-gray-400 hover:text-gray-600 font-bold">← પાછા</button>
       <span id="loginRoleLabel" class="text-sm font-bold" style="color:#E0102A">🛡️ Admin Login</span>
     </div>
-    <input class="w-full px-3 py-2.5 border rounded-lg text-sm bg-slate-50 mb-4 text-center font-bold tracking-wide" id="loginIdInput" placeholder="Admin ID  (admin)" type="text" inputmode="text">
+    <input class="w-full px-3 py-2.5 border rounded-lg text-sm bg-slate-50 mb-4 text-center font-bold tracking-wide" id="loginIdInput" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Admin ID  (admin)" type="text" inputmode="text">
     <div id="passwordWrapper" class="hidden mb-3">
       <div class="relative">
         <input class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50 text-center font-bold tracking-wide" id="loginPasswordInput" placeholder="🔒 Password" type="password">
@@ -1871,6 +1871,9 @@ function buildUsers() {
         if (a.id && a.id !== 'admin') u[a.id] = { name: a.name, role: 'admin', isMaster: false };
     });
     loadMechanics().forEach(m => { u[m.phone] = { name: m.name, role: 'mechanic', whatsapp: '91'+m.phone }; });
+    // VIEWER (Boss) — read-only. Default ID: boss  (Firebase 'viewers' ma thi vadhu ID pan umeri shakay)
+    u['boss'] = { name: 'Boss (Viewer)', role: 'viewer' };
+    (window._viewerList || []).forEach(v => { if (v && v.id) u[v.id] = { name: v.name || v.id, role: 'viewer' }; });
     return u;
 }
 function buildMechanicWhatsApp() {
@@ -2031,6 +2034,7 @@ function restoreSession(id) {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('appContent').classList.remove('hidden');
     document.getElementById('userRoleBadge').textContent = currentUser.name;
+    if (currentUser.role === 'viewer') { window.__enterViewerMode(); return; }
     if (currentUser.role === 'mechanic') {
         document.body.classList.add('role-mechanic');
         document.getElementById('adminFormContainer').classList.add('hidden');
@@ -2192,7 +2196,8 @@ function togglePasswordField(id) {
 }
 
 window.handleLogin = function() {
-    const id = document.getElementById('loginIdInput').value.trim();
+    let id = document.getElementById('loginIdInput').value.trim();
+    if (!users[id] && users[id.toLowerCase()]) id = id.toLowerCase();
     if (users[id]) {
         currentUser = users[id];
         currentUser.id = id;
@@ -2202,6 +2207,7 @@ window.handleLogin = function() {
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('appContent').classList.remove('hidden');
         document.getElementById('userRoleBadge').textContent = currentUser.name;
+    if (currentUser.role === 'viewer') { window.__enterViewerMode(); return; }
         if (currentUser.role === 'mechanic') {
             document.body.classList.add('role-mechanic');
             document.getElementById('adminFormContainer').classList.add('hidden');
@@ -2852,6 +2858,152 @@ function getToastContainer() {
 
 function showToast(item, opts) { /* notifications intentionally disabled */ }
 
+
+// ═══════════════ VIEWER (BOSS) READ-ONLY DASHBOARD ═══════════════
+window._viewerList = [];
+onValue(ref(db, 'viewers'), (snap) => {
+    const d = snap.val() || {};
+    window._viewerList = Object.values(d);
+    try { users = buildUsers(); } catch (e) {}
+});
+(function () {
+    const VD_CSS = `
+#viewerDash{position:fixed;inset:0;z-index:9990;overflow-y:auto;background:#F4F5F9;color:#141414;font-family:inherit;-webkit-overflow-scrolling:touch}
+#viewerDash *{font-weight:600!important}
+#viewerDash .vd-wrap{max-width:980px;margin:0 auto;padding:0 14px 40px}
+#viewerDash .vd-head{position:sticky;top:0;z-index:2;background:linear-gradient(135deg,#141414,#E0102A);color:#fff;padding:14px 14px 12px;padding-top:calc(14px + env(safe-area-inset-top,0px));box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#viewerDash .vd-head-in{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#viewerDash .vd-title{font-size:17px;font-weight:800!important;line-height:1.2}
+#viewerDash .vd-sub{font-size:11px;opacity:.85;margin-top:3px}
+#viewerDash .vd-logout{background:#fff;color:#E0102A;border:0;border-radius:999px;padding:7px 14px;font-size:12px;cursor:pointer}
+#viewerDash .vd-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+@media(min-width:700px){#viewerDash .vd-cards{grid-template-columns:repeat(4,1fr)}}
+#viewerDash .vd-card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(20,20,40,.07);border-top:4px solid #ccc}
+#viewerDash .vd-card .n{font-size:30px;font-weight:800!important;line-height:1.1}
+#viewerDash .vd-card .l{font-size:12px;color:#555;margin-top:4px}
+#viewerDash .vd-sec{font-size:14px;font-weight:800!important;margin:22px 0 10px}
+#viewerDash .vd-box{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(20,20,40,.07)}
+#viewerDash .vd-mech{margin-bottom:12px}
+#viewerDash .vd-mech:last-child{margin-bottom:0}
+#viewerDash .vd-mrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;gap:8px}
+#viewerDash .vd-bar{height:9px;border-radius:99px;background:#ECEEF3;overflow:hidden;display:flex}
+#viewerDash .vd-bar i{display:block;height:100%}
+#viewerDash .vd-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+#viewerDash input,#viewerDash select{border:1px solid #d9e0ea;border-radius:11px;padding:9px 11px;font-size:13px;background:#fff;min-width:0}
+#viewerDash .vd-search{flex:1 1 180px}
+#viewerDash .vd-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#viewerDash .vd-chip{border:1px solid #d9e0ea;background:#fff;border-radius:999px;padding:6px 13px;font-size:12px;cursor:pointer}
+#viewerDash .vd-chip.on{background:#E0102A;color:#fff;border-color:#E0102A}
+#viewerDash .vd-item{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(20,20,40,.06);border-left:5px solid #ccc}
+#viewerDash .vd-item .t{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+#viewerDash .vd-item .nm{font-size:15px;font-weight:800!important}
+#viewerDash .vd-badge{font-size:11px;border-radius:999px;padding:3px 10px;white-space:nowrap}
+#viewerDash .vd-item .pr{font-size:13px;margin-top:5px}
+#viewerDash .vd-item .mt{font-size:11.5px;color:#666;margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 14px}
+#viewerDash .vd-item a{color:#E0102A;text-decoration:none}
+#viewerDash .vd-empty{text-align:center;color:#888;padding:26px 0;font-size:13px}
+#viewerDash .vd-note{font-size:11px;color:#888;text-align:center;margin-top:18px}
+`;
+    let vdStatus = 'all', vdMech = 'all', vdQuery = '', vdClock = null;
+    const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const toMs = (v) => { if (!v) return 0; if (typeof v === 'number') return v; const n = Number(v); if (!isNaN(n) && n > 1e11) return n; const p = Date.parse(v); return isNaN(p) ? 0 : p; };
+    const isSolved = (c) => c.status === 'solved';
+    const isRejected = (c) => c.status === 'rejected';
+    const isOpen = (c) => !isSolved(c) && !isRejected(c);
+    const startOfToday = () => { const d = new Date(); d.setHours(0,0,0,0); return d.getTime(); };
+    const fmt = (ms) => ms ? new Date(ms).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', hour12:true }) : '';
+    const list = () => Object.entries(allData || {}).map(([k, v]) => Object.assign({ _k: k }, v));
+
+    window.__enterViewerMode = function () {
+        document.getElementById('appContent').classList.add('hidden');
+        document.getElementById('loginScreen').classList.add('hidden');
+        if (!document.getElementById('viewerDashStyle')) {
+            const st = document.createElement('style'); st.id = 'viewerDashStyle'; st.textContent = VD_CSS; document.head.appendChild(st);
+        }
+        let el = document.getElementById('viewerDash');
+        if (el) el.remove();
+        el = document.createElement('div'); el.id = 'viewerDash';
+        el.innerHTML =
+          '<div class="vd-head"><div class="vd-head-in"><div>' +
+            '<div class="vd-title">Shri Nrusinh Krupa Gas Agency</div>' +
+            '<div class="vd-sub">👁️ ' + esc(currentUser.name) + ' · ફક્ત જોવા માટે · <span id="vdClock"></span></div>' +
+          '</div><button class="vd-logout" onclick="window.__viewerLogout()">Logout ↩</button></div></div>' +
+          '<div class="vd-wrap">' +
+            '<div class="vd-cards" id="vdCards"></div>' +
+            '<div class="vd-sec">🧑‍🔧 મિકેનિક પ્રમાણે કામ</div><div class="vd-box" id="vdMechs"></div>' +
+            '<div class="vd-sec">📋 ફરિયાદો</div>' +
+            '<div class="vd-filters"><input class="vd-search" id="vdSearch" placeholder="🔍 નામ / ફોન / સરનામું શોધો"><select id="vdMechSel"></select></div>' +
+            '<div class="vd-chips" id="vdChips"></div>' +
+            '<div id="vdList"></div>' +
+            '<div class="vd-note">આ સ્ક્રીનમાં કંઈ બદલી શકાતું નથી · ડેટા લાઇવ અપડેટ થાય છે</div>' +
+          '</div>';
+        document.body.appendChild(el);
+        el.querySelector('#vdSearch').addEventListener('input', function () { vdQuery = this.value.trim().toLowerCase(); renderListPart(); });
+        el.querySelector('#vdMechSel').addEventListener('change', function () { vdMech = this.value; renderListPart(); });
+        vdStatus = 'all'; vdMech = 'all'; vdQuery = '';
+        tick(); clearInterval(vdClock); vdClock = setInterval(tick, 1000);
+        try { window.__renderViewerDash(); } catch (e) { const w = el.querySelector('.vd-wrap'); if (w) w.insertAdjacentHTML('afterbegin', '<div class="vd-box" style="color:#E0102A;margin-top:14px">⚠️ Error: ' + esc(e && e.message) + '</div>'); }
+        window.scrollTo(0, 0);
+    };
+    function tick() {
+        const c = document.getElementById('vdClock'); if (!c) return;
+        const n = new Date();
+        c.textContent = n.toLocaleDateString('en-IN', { day:'2-digit', month:'2-digit', year:'numeric' }) + ' ' + n.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', hour12:true });
+    }
+    window.__viewerLogout = function () {
+        clearInterval(vdClock);
+        const el = document.getElementById('viewerDash'); if (el) el.remove();
+        if (typeof handleLogout === 'function') handleLogout(); else location.reload();
+    };
+    window.__renderViewerDash = function () {
+        if (!document.getElementById('viewerDash')) return;
+        const all = list(), t0 = startOfToday();
+        const newToday = all.filter(c => toMs(c.createdAt) >= t0).length;
+        const open = all.filter(isOpen).length;
+        const solvedToday = all.filter(c => isSolved(c) && (toMs(c.solvedAt) || toMs(c.solvedTime) || toMs(c.createdAt)) >= t0).length;
+        const urgent = all.filter(c => isOpen(c) && c.urgent).length;
+        const card = (n, l, col) => '<div class="vd-card" style="border-top-color:' + col + '"><div class="n" style="color:' + col + '">' + n + '</div><div class="l">' + l + '</div></div>';
+        document.getElementById('vdCards').innerHTML =
+            card(newToday, '📥 આજની નવી ફરિયાદ', '#2563eb') + card(open, '⏳ ચાલુ / પેન્ડિંગ', '#E8500A') +
+            card(solvedToday, '✅ આજે સોલ્વ થઈ', '#16a34a') + card(urgent, '🚨 અર્જન્ટ ચાલુ', '#E0102A');
+        // mechanics
+        const names = {};
+        all.forEach(c => { if (c.mechanic) { (names[c.mechanic] = names[c.mechanic] || { o: 0, s: 0 }); if (isOpen(c)) names[c.mechanic].o++; else if (isSolved(c)) names[c.mechanic].s++; } });
+        const arr = Object.entries(names).sort((a, b) => b[1].o - a[1].o);
+        document.getElementById('vdMechs').innerHTML = arr.length ? arr.map(([n, v]) => {
+            const tot = v.o + v.s || 1;
+            return '<div class="vd-mech"><div class="vd-mrow"><span>' + esc(n) + '</span><span>⏳ ' + v.o + ' &nbsp; ✅ ' + v.s + '</span></div>' +
+                   '<div class="vd-bar"><i style="width:' + (v.s / tot * 100) + '%;background:#16a34a"></i><i style="width:' + (v.o / tot * 100) + '%;background:#E8500A"></i></div></div>';
+        }).join('') : '<div class="vd-empty">હજુ કોઈ ડેટા નથી</div>';
+        // mech select
+        const sel = document.getElementById('vdMechSel');
+        sel.innerHTML = '<option value="all">બધા મિકેનિક</option>' + arr.map(([n]) => '<option value="' + esc(n) + '">' + esc(n) + '</option>').join('');
+        sel.value = names[vdMech] ? vdMech : 'all'; vdMech = sel.value;
+        renderListPart();
+    };
+    function renderListPart() {
+        const chips = [['all','બધી'],['open','ચાલુ'],['solved','સોલ્વ'],['rejected','રદ']];
+        document.getElementById('vdChips').innerHTML = chips.map(([k, l]) => '<button class="vd-chip' + (vdStatus === k ? ' on' : '') + '" data-k="' + k + '">' + l + '</button>').join('');
+        document.querySelectorAll('#vdChips .vd-chip').forEach(b => b.onclick = () => { vdStatus = b.dataset.k; renderListPart(); });
+        let rows = list().sort((a, b) => toMs(b.createdAt) - toMs(a.createdAt));
+        if (vdStatus === 'open') rows = rows.filter(isOpen); else if (vdStatus === 'solved') rows = rows.filter(isSolved); else if (vdStatus === 'rejected') rows = rows.filter(isRejected);
+        if (vdMech !== 'all') rows = rows.filter(c => c.mechanic === vdMech);
+        if (vdQuery) rows = rows.filter(c => [c.customerName, c.phone, c.address, c.problem, c.mechanic, c.consumerNumber].join(' ').toLowerCase().includes(vdQuery));
+        const total = rows.length; rows = rows.slice(0, 100);
+        document.getElementById('vdList').innerHTML = rows.length ? rows.map(c => {
+            const col = isSolved(c) ? '#16a34a' : isRejected(c) ? '#6b7280' : (c.urgent ? '#E0102A' : '#E8500A');
+            const lab = isSolved(c) ? '✅ સોલ્વ' : isRejected(c) ? '❌ રદ' : (c.status === 'pending' ? '🕒 પેન્ડિંગ' : '🔧 ચાલુ');
+            return '<div class="vd-item" style="border-left-color:' + col + '"><div class="t"><div class="nm">' + (c.urgent && isOpen(c) ? '🚨 ' : '') + esc(c.customerName || '—') + '</div>' +
+              '<span class="vd-badge" style="background:' + col + '22;color:' + col + '">' + lab + '</span></div>' +
+              '<div class="pr">🔧 ' + esc(c.problem || '—') + '</div>' +
+              '<div class="mt"><span>🧑‍🔧 ' + esc(c.mechanic || '—') + '</span>' +
+              (c.phone ? '<a href="tel:' + esc(c.phone) + '">📞 ' + esc(c.phone) + '</a>' : '') +
+              (c.address ? '<span>📍 ' + esc(c.address) + '</span>' : '') +
+              '<span>🕐 ' + fmt(toMs(c.createdAt)) + '</span></div></div>';
+        }).join('') + (total > 100 ? '<div class="vd-note">છેલ્લી 100 ફરિયાદ બતાવી (કુલ ' + total + ')</div>' : '') : '<div class="vd-empty">કોઈ ફરિયાદ મળી નથી</div>';
+    }
+})();
+
 onValue(complaintsRef, (snapshot) => {
     const data = snapshot.val() || {};
     const prevData = allData;
@@ -2896,6 +3048,7 @@ onValue(complaintsRef, (snapshot) => {
     }
     allData     = data;
     isFirstLoad = false;
+    if (currentUser && currentUser.role === 'viewer' && window.__renderViewerDash) { try { window.__renderViewerDash(); } catch (e) { console.error('viewer render', e); } }
     if (currentUser) renderList();
     if (currentUser && currentUser.role === 'admin') renderLivePerf();
     // Performance modal open હોય તો content refresh
